@@ -8,5 +8,5 @@ declare module 'express-session' {
 
 export const guest = (req: Request, res: Response, next: NextFunction) => {
   if (!req.session.user) next();
-  return res.json({ error: 'Already authentificated.' });
+  return res.status(403).json({ error: 'Already authentificated.' });
 };
