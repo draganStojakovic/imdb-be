@@ -6,6 +6,7 @@ import { SESSION } from './app/constants/envVars';
 import { connectDB } from './app/database/dbConn';
 import mongoose from 'mongoose';
 import session from 'express-session';
+import Router from './app/routes/Router';
 
 connectDB();
 
@@ -24,6 +25,8 @@ mongoose.connection.on('open', () => {
       cookie: { maxAge: SESSION },
     })
   );
+
+  app.use('/api', Router);
 
   app.listen(PORT, HOST, () => {
     console.log(`[ ready ] http://${HOST}:${PORT}`);
