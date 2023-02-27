@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 
-export const schemaValidator = (
+const schemaValidator = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -17,3 +17,5 @@ export const schemaValidator = (
 
   next();
 };
+
+export default schemaValidator;
