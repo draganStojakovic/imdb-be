@@ -1,4 +1,4 @@
-export interface User {
+export interface iUser {
   fname: string;
   lname: string;
   email: string;

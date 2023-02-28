@@ -7,6 +7,6 @@ export const logOutUser = (req: Request, res: Response) => {
         success: false,
         error: err,
       });
-    return res.status(200).json({ success: true });
+    return res.json({ success: true });
   });
 };

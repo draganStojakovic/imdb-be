@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import { iUser } from 'src/types/iUser';
 
-const userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema<iUser>(
   {
     fname: { type: String, required: true },
     lname: { type: String, required: true },
