@@ -7,6 +7,7 @@ import SchemaValidator from 'src/validators/schemaValidator';
 import { registerUser } from 'src/controllers/auth/register';
 import loginValidator from 'src/validators/auth/LogInValidator';
 import { loginUser } from 'src/controllers/auth/login';
+import { logOutUser } from 'src/controllers/auth/logout';
 
 export const authRouter = Router();
 
@@ -21,3 +22,5 @@ authRouter.post(
 );
 
 authRouter.post('/login', guest, loginValidator, SchemaValidator, loginUser);
+
+authRouter.post('/logout', auth, logOutUser);
