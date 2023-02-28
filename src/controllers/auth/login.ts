@@ -15,10 +15,14 @@ export const loginUser = async (req: Request, res: Response) => {
       });
     }
 
-    bcryptjs.compare(password, user.password, (err) => {
-      if (err) return false;
-      return true;
-    });
+    const response = await bcryptjs.compare(password, user.password);
+
+    if (!response) {
+      return res.status(401).json({
+        success: false,
+        error: 'user',
+      });
+    }
 
     req.session.user = user;
     return res.status(200).json(user);
