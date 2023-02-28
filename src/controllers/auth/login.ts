@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { User } from 'database/schemas/User';
 import bcryptjs from 'bcryptjs';
-import { sanitizeUser } from 'util/sanitizers';
+import { sanitizeError, sanitizeUser } from 'util/sanitizers';
 
 export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -10,19 +10,13 @@ export const loginUser = async (req: Request, res: Response) => {
     const user = await User.findOne({ email: email });
 
     if (!user) {
-      return res.status(401).json({
-        success: false,
-        error: 'user',
-      });
+      return res.status(401).json(sanitizeError('Bad credentials.', 401));
     }
 
     const response = await bcryptjs.compare(password, user.password);
 
     if (!response) {
-      return res.status(401).json({
-        success: false,
-        error: 'user',
-      });
+      return res.status(401).json(sanitizeError('Bad credentials.', 401));
     }
 
     req.session.user = user;

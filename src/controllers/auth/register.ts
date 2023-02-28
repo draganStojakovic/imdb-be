@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { User } from 'database/schemas/User';
 import bcryptjs from 'bcryptjs';
-import { sanitizeUser } from 'util/sanitizers';
+import { sanitizeError, sanitizeUser } from 'util/sanitizers';
 
 export const registerUser = async (req: Request, res: Response) => {
   const { fname, lname, email, password } = req.body;
@@ -18,6 +18,6 @@ export const registerUser = async (req: Request, res: Response) => {
     return res.status(201).json(sanitizeUser(newUser));
   } catch (e) {
     console.log(e);
-    return res.status(500).json({ error: 'Status 500' });
+    return res.status(500).json(sanitizeError('Server Error', 500));
   }
 };
