@@ -1,13 +1,10 @@
 import express from 'express';
-import { HOST } from './constants/envVars';
-import { PORT } from './constants/envVars';
-import { COOKIE_SECRET } from './constants/envVars';
-import { SESSION } from './constants/envVars';
-import { connectDB } from './database/dbConn';
 import mongoose from 'mongoose';
 import session from 'express-session';
-import Router from 'src/routes/Router';
 import cors from 'cors';
+import router from 'routes/Router';
+import { connectDB } from 'database/dbConn';
+import { COOKIE_SECRET, HOST, PORT, SESSION } from 'constants/envVars';
 
 connectDB();
 
@@ -32,7 +29,7 @@ mongoose.connection.on('open', () => {
     })
   );
 
-  app.use('/api', Router);
+  app.use('/api', router);
 
   app.listen(PORT, HOST, () => {
     console.log(`[ ready ] http://${HOST}:${PORT}`);

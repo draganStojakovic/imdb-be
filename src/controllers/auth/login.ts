@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { User } from 'src/database/schemas/User';
+import { User } from 'database/schemas/User';
 import bcryptjs from 'bcryptjs';
 
 export const loginUser = async (req: Request, res: Response) => {

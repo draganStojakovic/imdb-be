@@ -12,9 +12,19 @@
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "src",
     "esModuleInterop": true
   },
+  "paths": {
+    "@src/*": ["src/*"],
+    "@constants/*": ["src/constants/*"],
+    "@controllers/*": ["src/controllers/*"],
+    "@middleware/*": ["src/middleware/*"],
+    "@routes/*": ["src/routes/*"],
+    "@types/*": ["src/types/*"],
+    "@util/*": ["src/util/*"],
+    "@validators/*": ["src/validators/*"],
+},
   "files": [],
   "include": [],
   "references": [

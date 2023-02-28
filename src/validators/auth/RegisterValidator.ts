@@ -1,5 +1,5 @@
+import { User } from 'database/schemas/User';
 import { body } from 'express-validator';
-import { User } from 'src/database/schemas/User';
 
 const registerValidator = [
   body('fname')
