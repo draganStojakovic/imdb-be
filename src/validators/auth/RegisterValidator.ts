@@ -1,5 +1,5 @@
 import { body } from 'express-validator';
-import { User } from 'src/app/database/schemas/User';
+import { User } from 'src/database/schemas/User';
 
 const registerValidator = [
   body('fname')
@@ -18,10 +18,8 @@ const registerValidator = [
     .isEmail()
     .normalizeEmail()
     .custom(async (email) => {
-      const user = await User.findOne({
-        where: { email },
-      });
-      if (user.email === email) throw new Error('Email already in use');
+      const user = await User.findOne({ email: email });
+      if (user) throw new Error('Email already in use');
       return true;
     }),
   body('password')
