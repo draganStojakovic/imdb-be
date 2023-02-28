@@ -16,6 +16,7 @@
     "esModuleInterop": true
   },
   "paths": {
+    "@app/*": ["src/app/*"],
     "@src/*": ["src/*"],
     "@constants/*": ["src/constants/*"],
     "@controllers/*": ["src/controllers/*"],
