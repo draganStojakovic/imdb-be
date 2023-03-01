@@ -7,10 +7,7 @@ const app = createApp();
 beforeAll(async () => {
   mongoose.set('strictQuery', false);
   await mongoose.connect(process.env.DB);
-  const collections = await mongoose.connection.db.collections();
-  for (const collection of collections) {
-    await collection.deleteMany({});
-  }
+  await mongoose.connection.db.dropDatabase();
 });
 
 afterAll(async () => {
