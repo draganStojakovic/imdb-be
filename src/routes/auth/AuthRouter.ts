@@ -11,7 +11,7 @@ import { logOutUser } from 'controllers/auth/logout';
 
 export const authRouter = Router();
 
-authRouter.get('/me', auth, me);
+authRouter.post('/me', auth, me);
 
 authRouter.post(
   '/register',

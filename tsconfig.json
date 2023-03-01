@@ -18,6 +18,7 @@
   "paths": {
     "@app/*": ["src/app/*"],
     "@src/*": ["src/*"],
+    "@tests/*": ["src/tests/*"],
     "@constants/*": ["src/constants/*"],
     "@controllers/*": ["src/controllers/*"],
     "@middleware/*": ["src/middleware/*"],
