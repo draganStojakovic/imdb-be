@@ -26,6 +26,7 @@
     "@types/*": ["src/types/*"],
     "@util/*": ["src/util/*"],
     "@validators/*": ["src/validators/*"],
+    "@helpers/*": ["src/helpers/*"],
 },
   "files": [],
   "include": [],

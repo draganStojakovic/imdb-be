@@ -2,12 +2,13 @@ import { Request, Response } from 'express';
 import { User } from 'database/schemas/User';
 import bcryptjs from 'bcryptjs';
 import { sanitizeError, sanitizeUser } from 'util/sanitizers';
+import { hashTextHelper } from 'helpers/hashTextHelper';
 
 export const registerUser = async (req: Request, res: Response) => {
   const { fname, lname, email, password } = req.body;
 
   try {
-    const hashedPassword = await bcryptjs.hash(password, 10);
+    const hashedPassword = await hashTextHelper(bcryptjs, password);
     const newUser = await User.create({
       fname: fname,
       lname: lname,
