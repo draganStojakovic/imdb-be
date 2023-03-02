@@ -14,8 +14,6 @@ beforeEach(async () => {
 
 describe('auth unit tests', () => {
   it('should register a new user', async () => {
-    const user = await User.findOne({ email: 'johndoe@gmail.com' });
-    expect(user).toBe(null);
     const response = await request(app).post('/api/auth/register').send({
       fname: 'John',
       lname: 'Doe',
@@ -29,6 +27,10 @@ describe('auth unit tests', () => {
       lname: response.body.lname,
       email: response.body.email,
     });
+    const user = await User.findOne({ email: 'johndoe@gmail.com' });
+    expect(user.fname).toEqual("John");
+    expect(user.lname).toEqual("Doe");
+    expect(user.email).toEqual("johndoe@gmail.com");
   });
 
   it('should log in an user', async () => {
