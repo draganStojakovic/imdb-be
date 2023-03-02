@@ -14,6 +14,8 @@ beforeEach(async () => {
 
 describe('auth unit tests', () => {
   it('should register a new user', async () => {
+    const user = await User.findOne({ email: 'johndoe@gmail.com' });
+    expect(user).toBe(null);
     const response = await request(app).post('/api/auth/register').send({
       fname: 'John',
       lname: 'Doe',
