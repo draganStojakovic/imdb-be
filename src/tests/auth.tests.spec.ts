@@ -1,17 +1,14 @@
 import createApp from 'app/app';
 import request from 'supertest';
 import mongoose from 'mongoose';
+import createUser from 'helpers/TestHelpers';
 
 const app = createApp();
 
-beforeAll(async () => {
+beforeEach(async () => {
   mongoose.set('strictQuery', false);
   await mongoose.connect(process.env.DB);
   await mongoose.connection.db.dropDatabase();
-});
-
-afterAll(async () => {
-  await mongoose.connection.close();
 });
 
 describe('auth unit tests', () => {
@@ -32,6 +29,7 @@ describe('auth unit tests', () => {
   });
 
   it('should log in an user', async () => {
+    await createUser();
     const response = await request(app).post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
       password: 'password123',
@@ -45,6 +43,7 @@ describe('auth unit tests', () => {
   });
 
   it('should log in an user, then log out', async () => {
+    await createUser();
     const agent = request.agent(app);
     const response = await agent.post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
@@ -61,6 +60,7 @@ describe('auth unit tests', () => {
   });
 
   it('should log in an user, then run "me" route', async () => {
+    await createUser();
     const agent = request.agent(app);
     const response = await agent.post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
@@ -100,6 +100,7 @@ describe('auth unit tests', () => {
   });
 
   it('should fail registering a new user (email exists)', async () => {
+    await createUser()
     const response = await request(app).post('/api/auth/register').send({
       fname: 'John',
       lname: 'Doe',

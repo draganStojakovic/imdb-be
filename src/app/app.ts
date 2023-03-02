@@ -7,11 +7,12 @@ import { COOKIE_SECRET, SESSION } from 'constants/envVars';
 const createApp = () => {
   const app = express();
   app.use(express.json());
-  app.set('trust proxy', 1);
+
   app.use(
     cors({
+      origin: 'http://localhost:3000',
+      methods: ['POST', 'PUT', 'GET'],
       credentials: true,
-      methods: ['POST', 'GET', 'PUT'],
     })
   );
 
@@ -23,6 +24,8 @@ const createApp = () => {
       cookie: { maxAge: SESSION },
     })
   );
+
+  app.set('trust proxy', 1);
 
   app.use('/api', router);
 
