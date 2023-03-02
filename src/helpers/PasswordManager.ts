@@ -1,5 +1,4 @@
-import { hash } from 'bcryptjs';
-import { compare } from 'bcryptjs';
+import { hash, compare } from 'bcryptjs';
 
 class PasswordManager {
   private salts = 10;

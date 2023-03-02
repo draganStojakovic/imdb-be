@@ -2,6 +2,7 @@ import createApp from 'app/app';
 import request from 'supertest';
 import mongoose from 'mongoose';
 import createUser from 'helpers/TestHelpers';
+import { User } from 'database/schemas/User';
 
 const app = createApp();
 
@@ -82,25 +83,42 @@ describe('auth unit tests', () => {
   });
 
   it('should fail log in', async () => {
+    await createUser();
     const response = await request(app).post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
       password: 'wrongpassword',
     });
     expect(response.statusCode).toBe(401);
+    expect(response.body).toEqual({
+      success: false,
+      errors: [
+        {
+          message: 'Bad credentials.',
+          status: 401,
+          location: 'body',
+        },
+      ],
+    });
   });
 
   it('should fail logout', async () => {
     const response = await request(app).post('/api/auth/logout').send();
     expect(response.statusCode).toBe(401);
+    expect(response.body).toEqual({
+      error: 'Not authentificated.',
+    });
   });
 
   it('should fail "me" route', async () => {
     const response = await request(app).post('/api/auth/me').send();
     expect(response.statusCode).toBe(401);
+    expect(response.body).toEqual({
+      error: 'Not authentificated.',
+    });
   });
 
   it('should fail registering a new user (email exists)', async () => {
-    await createUser()
+    await createUser();
     const response = await request(app).post('/api/auth/register').send({
       fname: 'John',
       lname: 'Doe',
@@ -109,5 +127,16 @@ describe('auth unit tests', () => {
       confirmPassword: 'password123',
     });
     expect(response.statusCode).toBe(400);
+    expect(response.body).toEqual({
+      success: false,
+      errors: [
+        {
+          value: 'johndoe@gmail.com',
+          msg: 'Email already in use',
+          param: 'email',
+          location: 'body',
+        },
+      ],
+    });
   });
 });
