@@ -1,5 +1,5 @@
+import { DB } from "constants/envVars";
 import mongoose from "mongoose";
-import { DB } from "../constants/envVars";
 
 export const connectDB = async () => {
   if (!DB) {

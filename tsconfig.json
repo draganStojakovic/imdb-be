@@ -12,9 +12,22 @@
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "src",
     "esModuleInterop": true
   },
+  "paths": {
+    "@app/*": ["src/app/*"],
+    "@src/*": ["src/*"],
+    "@tests/*": ["src/tests/*"],
+    "@constants/*": ["src/constants/*"],
+    "@controllers/*": ["src/controllers/*"],
+    "@middleware/*": ["src/middleware/*"],
+    "@routes/*": ["src/routes/*"],
+    "@types/*": ["src/types/*"],
+    "@util/*": ["src/util/*"],
+    "@validators/*": ["src/validators/*"],
+    "@helpers/*": ["src/helpers/*"],
+},
   "files": [],
   "include": [],
   "references": [
@@ -25,5 +38,5 @@
       "path": "./tsconfig.spec.json"
     }
   ],
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp"],
 }
