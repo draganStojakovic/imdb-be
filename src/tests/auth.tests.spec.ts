@@ -1,8 +1,9 @@
 import createApp from 'app/app';
 import request from 'supertest';
 import mongoose from 'mongoose';
-import createUser from 'helpers/TestHelpers';
+import { createMovieJest, createUser } from 'helpers/TestHelpers';
 import { User } from 'database/schemas/User';
+import { Movie } from 'database/schemas/Movie';
 
 const app = createApp();
 
@@ -12,7 +13,11 @@ beforeEach(async () => {
   await mongoose.connection.db.dropDatabase();
 });
 
-describe('auth unit tests', () => {
+afterAll(async () => {
+  await mongoose.connection.db.dropDatabase();
+});
+
+describe('unit tests', () => {
   it('should register a new user', async () => {
     const response = await request(app).post('/api/auth/register').send({
       fname: 'John',
@@ -28,9 +33,9 @@ describe('auth unit tests', () => {
       email: response.body.email,
     });
     const user = await User.findOne({ email: 'johndoe@gmail.com' });
-    expect(user.fname).toEqual("John");
-    expect(user.lname).toEqual("Doe");
-    expect(user.email).toEqual("johndoe@gmail.com");
+    expect(user.fname).toEqual('John');
+    expect(user.lname).toEqual('Doe');
+    expect(user.email).toEqual('johndoe@gmail.com');
   });
 
   it('should log in an user', async () => {
@@ -142,5 +147,139 @@ describe('auth unit tests', () => {
         },
       ],
     });
+  });
+
+  ////////// MOVIE TESTS ////////////////////////////////
+
+  it('should create a new movie', async () => {
+    const agent = request.agent(app);
+    await agent.post('/api/auth/register').send({
+      fname: 'John',
+      lname: 'Doe',
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+      confirmPassword: 'password123',
+    });
+    const response = await agent.post('/api/movies/create').send({
+      title: 'test movie',
+      description: 'description of a movie',
+      coverImage: 'https://blabla.com/images/blabla.jpg',
+      genre: 'horror',
+    });
+    expect(response.statusCode).toBe(201);
+    expect(response.body).toEqual({
+      id: response.body.id,
+      title: response.body.title,
+      description: response.body.description,
+      coverImage: response.body.coverImage,
+      genre: response.body.genre,
+    });
+    const movie = await Movie.findOne({ title: 'test movie' });
+    expect(movie.title).toEqual('test movie');
+    expect(movie.description).toEqual('description of a movie');
+    expect(movie.coverImage).toEqual('https://blabla.com/images/blabla.jpg');
+    expect(movie.genre).toEqual('horror');
+  });
+
+  it('should return all movies', async () => {
+    const newMovie = await createMovieJest();
+    const agent = request.agent(app);
+    await agent.post('/api/auth/register').send({
+      fname: 'John',
+      lname: 'Doe',
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+      confirmPassword: 'password123',
+    });
+    const response = await agent.get('/api/movies').send();
+    expect(response.statusCode).toBe(200);
+    expect(response.body[0].title).toEqual(newMovie.title);
+    expect(response.body[0].description).toEqual(newMovie.description);
+    expect(response.body[0].coverImage).toEqual(newMovie.coverImage);
+    expect(response.body[0].genre).toEqual(newMovie.genre);
+  });
+
+  it('should find movie by id', async () => {
+    const newMovie = await createMovieJest();
+    const agent = request.agent(app);
+    await agent.post('/api/auth/register').send({
+      fname: 'John',
+      lname: 'Doe',
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+      confirmPassword: 'password123',
+    });
+    const response = await agent.get(`/api/movies?id=${newMovie._id}`).send();
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual({
+      id: response.body.id,
+      title: response.body.title,
+      description: response.body.description,
+      coverImage: response.body.coverImage,
+      genre: response.body.genre,
+    });
+  });
+
+  it('should update an existing movie', async () => {
+    const newMovie = await createMovieJest();
+    const agent = request.agent(app);
+    await agent.post('/api/auth/register').send({
+      fname: 'John',
+      lname: 'Doe',
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+      confirmPassword: 'password123',
+    });
+    const response = await agent
+      .put(`/api/movies/update/${newMovie._id}`)
+      .send({
+        title: 'new title',
+        description: 'new description',
+        coverImage: newMovie.coverImage,
+        genre: 'action',
+      });
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual({
+      id: response.body.id,
+      title: 'new title',
+      description: 'new description',
+      coverImage: response.body.coverImage,
+      genre: 'action',
+    });
+  });
+
+  it('should delete an existing movie', async () => {
+    const newMovie = await createMovieJest();
+    const agent = request.agent(app);
+    await agent.post('/api/auth/register').send({
+      fname: 'John',
+      lname: 'Doe',
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+      confirmPassword: 'password123',
+    });
+    const response = await agent.delete(`/api/movies/${newMovie._id}`).send();
+    expect(response.statusCode).toBe(200);
+    const movie = await agent.get(`/api/movies?id=${newMovie._id}`).send();
+    expect(movie.statusCode).toBe(404);
+    expect(movie.body.success).toEqual(false);
+    expect(movie.body.errors[0].status).toEqual(404);
+  });
+
+  it('should fail finding a movie', async () => {
+    const agent = request.agent(app);
+    await agent.post('/api/auth/register').send({
+      fname: 'John',
+      lname: 'Doe',
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+      confirmPassword: 'password123',
+    });
+    const response = await agent
+      .get('/api/movies?id=64036b4b759c01f1e686654a') // random id which is wrong
+      .send();
+    expect(response.statusCode).toBe(404);
+    expect(response.body.success).toEqual(false);
+    expect(response.body.errors[0].status).toEqual(404);
   });
 });

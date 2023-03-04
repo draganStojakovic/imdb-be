@@ -1,7 +1,8 @@
 import { User } from 'database/schemas/User';
+import { Movie } from 'database/schemas/Movie';
 import passwordManager from './PasswordManager';
 
-const createUser = async () => {
+export const createUser = async () => {
   try {
     const hashedPassword = await passwordManager.hash('password123');
     const newUser = await User.create({
@@ -16,4 +17,16 @@ const createUser = async () => {
   }
 };
 
-export default createUser;
+export const createMovieJest = async () => {
+  try {
+    const newMovie = await Movie.create({
+      title: 'test movie',
+      description: 'description of a movie',
+      coverImage: 'https://blabla.com/images/blabla.jpg',
+      genre: 'horror',
+    });
+    return newMovie;
+  } catch (e) {
+    return null;
+  }
+};
