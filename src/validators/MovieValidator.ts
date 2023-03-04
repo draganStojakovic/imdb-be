@@ -37,5 +37,3 @@ const movieValidator = [
 ];
 
 export default movieValidator;
-
-// .matches('(?:https?)://(w+:?w*)?(S+)(:d+)?(/|/([w#!:.?+=&%!-/]))?')
