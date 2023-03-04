@@ -12,7 +12,7 @@ export const createMovie = async (req: Request, res: Response) => {
       coverImage: coverImage,
       genre: genre,
     });
-    return res.status(200).json(sanitizeMovie(newMovie));
+    return res.status(201).json(sanitizeMovie(newMovie));
   } catch (e) {
     console.log(e);
     return res.status(500).json(sanitizeError('Server Error', 500));

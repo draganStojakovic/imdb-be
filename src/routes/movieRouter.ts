@@ -1,5 +1,7 @@
 import { createMovie } from 'controllers/createMovie';
+import { deleteMovie } from 'controllers/deleteMovie';
 import { getMovies } from 'controllers/getMovies';
+import { updateMovie } from 'controllers/updateMovie';
 import { Router } from 'express';
 import { auth } from 'middleware/auth';
 import movieValidator from 'validators/MovieValidator';
@@ -16,3 +18,13 @@ movieRouter.post(
   schemaValidator,
   createMovie
 );
+
+movieRouter.put(
+  '/movies/update/:id',
+  auth,
+  movieValidator,
+  schemaValidator,
+  updateMovie
+);
+
+movieRouter.delete('/movies/:id', auth, deleteMovie);
