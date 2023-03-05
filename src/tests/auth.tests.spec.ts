@@ -153,12 +153,10 @@ describe('unit tests', () => {
 
   it('should create a new movie', async () => {
     const agent = request.agent(app);
-    await agent.post('/api/auth/register').send({
-      fname: 'John',
-      lname: 'Doe',
+    await createUser();
+    await agent.post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
       password: 'password123',
-      confirmPassword: 'password123',
     });
     const response = await agent.post('/api/movies/create').send({
       title: 'test movie',
@@ -182,14 +180,12 @@ describe('unit tests', () => {
   });
 
   it('should return all movies', async () => {
-    const newMovie = await createMovieJest();
     const agent = request.agent(app);
-    await agent.post('/api/auth/register').send({
-      fname: 'John',
-      lname: 'Doe',
+    const newMovie = await createMovieJest();
+    await createUser();
+    await agent.post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
       password: 'password123',
-      confirmPassword: 'password123',
     });
     const response = await agent.get('/api/movies').send();
     expect(response.statusCode).toBe(200);
@@ -200,14 +196,12 @@ describe('unit tests', () => {
   });
 
   it('should find movie by id', async () => {
-    const newMovie = await createMovieJest();
     const agent = request.agent(app);
-    await agent.post('/api/auth/register').send({
-      fname: 'John',
-      lname: 'Doe',
+    await createUser();
+    const newMovie = await createMovieJest();
+    await agent.post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
       password: 'password123',
-      confirmPassword: 'password123',
     });
     const response = await agent.get(`/api/movies?id=${newMovie._id}`).send();
     expect(response.statusCode).toBe(200);
@@ -221,14 +215,12 @@ describe('unit tests', () => {
   });
 
   it('should update an existing movie', async () => {
-    const newMovie = await createMovieJest();
     const agent = request.agent(app);
-    await agent.post('/api/auth/register').send({
-      fname: 'John',
-      lname: 'Doe',
+    await createUser();
+    const newMovie = await createMovieJest();
+    await agent.post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
       password: 'password123',
-      confirmPassword: 'password123',
     });
     const response = await agent
       .put(`/api/movies/update/${newMovie._id}`)
@@ -251,12 +243,10 @@ describe('unit tests', () => {
   it('should delete an existing movie', async () => {
     const newMovie = await createMovieJest();
     const agent = request.agent(app);
-    await agent.post('/api/auth/register').send({
-      fname: 'John',
-      lname: 'Doe',
+    await createUser();
+    await agent.post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
       password: 'password123',
-      confirmPassword: 'password123',
     });
     const response = await agent.delete(`/api/movies/${newMovie._id}`).send();
     expect(response.statusCode).toBe(200);
@@ -268,12 +258,10 @@ describe('unit tests', () => {
 
   it('should fail finding a movie', async () => {
     const agent = request.agent(app);
-    await agent.post('/api/auth/register').send({
-      fname: 'John',
-      lname: 'Doe',
+    await createUser();
+    await agent.post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
       password: 'password123',
-      confirmPassword: 'password123',
     });
     const response = await agent
       .get('/api/movies?id=64036b4b759c01f1e686654a') // random id which is wrong
