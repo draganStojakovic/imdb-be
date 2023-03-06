@@ -15,6 +15,6 @@ export const createMovie = async (req: Request, res: Response) => {
     return res.status(201).json(sanitizeMovie(newMovie));
   } catch (e) {
     console.log(e);
-    return res.status(500).json(sanitizeError('Server Error', 500));
+    return res.status(500).json(sanitizeError('Server Error'));
   }
 };

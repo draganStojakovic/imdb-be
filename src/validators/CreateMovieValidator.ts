@@ -2,19 +2,15 @@ import { body } from 'express-validator';
 import { URL } from 'url';
 import { Movie } from 'database/schemas/Movie';
 
-const movieValidator = [
+const createMovieValidator = [
   body('title')
     .exists({ checkFalsy: true })
     .withMessage('Title is required')
     .isString()
     .withMessage('Title must be string type')
-    .custom(async (value, { req }) => {
-      if (req.params.id) return true;
-      // PUT metod ruta sadrzi ID param i nije mi bitno ako
-      // se poklope isti naziv filma iz body-ja i iz baze
-      // u svakom slucaju bi pukla validacija da ne return-ujem iznad.
-      const movie = await Movie.findOne({ title: value });
-      if (movie) throw new Error('Movie already exists');
+    .custom(async (title: string) => {
+      const movie = await Movie.count({ title });
+      if (movie > 0) throw new Error('Movie already exists');
       return true;
     }),
   body('description')
@@ -40,4 +36,4 @@ const movieValidator = [
     .withMessage('Genre must be string type'),
 ];
 
-export default movieValidator;
+export default createMovieValidator;

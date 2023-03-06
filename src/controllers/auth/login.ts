@@ -10,13 +10,13 @@ export const loginUser = async (req: Request, res: Response) => {
     const user = await User.findOne({ email: email });
 
     if (!user) {
-      return res.status(401).json(sanitizeError('Bad credentials.', 401));
+      return res.status(401).json(sanitizeError('Bad credentials.'));
     }
 
     const response = await passwordManager.compare(password, user.password);
 
     if (!response) {
-      return res.status(401).json(sanitizeError('Bad credentials.', 401));
+      return res.status(401).json(sanitizeError('Bad credentials.'));
     }
 
     req.session.user = user;

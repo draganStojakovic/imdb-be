@@ -18,6 +18,6 @@ export const registerUser = async (req: Request, res: Response) => {
     return res.status(201).json(sanitizeUser(newUser));
   } catch (e) {
     console.log(e);
-    return res.status(500).json(sanitizeError('Server Error', 500));
+    return res.status(500).json(sanitizeError('Server Error'));
   }
 };

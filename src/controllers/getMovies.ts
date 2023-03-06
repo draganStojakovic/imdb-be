@@ -6,20 +6,20 @@ export const getMovies = async (req: Request, res: Response) => {
   const id = req.query.id;
   if (id) {
     try {
-      const movie = await Movie.findById(id);
-      if (!movie) return res.status(404).json(sanitizeError('Not Found', 404));
+      const movie = await Movie.findById(id); // count
+      if (!movie) return res.status(404).json(sanitizeError('Not Found'));
       return res.status(200).json(sanitizeMovie(movie));
     } catch (e) {
       console.log(e);
-      return res.status(500).json(sanitizeError('Server Error', 500));
+      return res.status(500).json(sanitizeError('Server Error'));
     }
   }
   try {
     const movies = await Movie.find();
-    if (!movies) return res.status(404).json(sanitizeError('Not Found', 404));
+    if (!movies) return res.status(404).json(sanitizeError('Not Found'));
     return res.status(200).json(sanitizeMovies(movies));
   } catch (e) {
     console.log(e);
-    return res.status(500).json(sanitizeError('Server Error', 500));
+    return res.status(500).json(sanitizeError('Server Error'));
   }
 };

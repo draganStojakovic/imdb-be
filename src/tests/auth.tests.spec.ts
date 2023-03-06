@@ -102,8 +102,7 @@ describe('unit tests', () => {
       success: false,
       errors: [
         {
-          message: 'Bad credentials.',
-          status: 401,
+          msg: 'Bad credentials.',
           location: 'body',
         },
       ],
@@ -158,7 +157,7 @@ describe('unit tests', () => {
       email: 'johndoe@gmail.com',
       password: 'password123',
     });
-    const response = await agent.post('/api/movies/create').send({
+    const response = await agent.post('/api/movies').send({
       title: 'test movie',
       description: 'description of a movie',
       coverImage: 'https://blabla.com/images/blabla.jpg',
@@ -203,7 +202,7 @@ describe('unit tests', () => {
       email: 'johndoe@gmail.com',
       password: 'password123',
     });
-    const response = await agent.get(`/api/movies?id=${newMovie._id}`).send();
+    const response = await agent.get(`/api/movies/${newMovie._id}`).send();
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({
       id: response.body.id,
@@ -216,20 +215,18 @@ describe('unit tests', () => {
 
   it('should update an existing movie', async () => {
     const agent = request.agent(app);
-    await createUser();
+    const newUser = await createUser();
     const newMovie = await createMovieJest();
     await agent.post('/api/auth/login').send({
-      email: 'johndoe@gmail.com',
+      email: newUser.email,
       password: 'password123',
     });
-    const response = await agent
-      .put(`/api/movies/update/${newMovie._id}`)
-      .send({
-        title: 'new title',
-        description: 'new description',
-        coverImage: newMovie.coverImage,
-        genre: 'action',
-      });
+    const response = await agent.put(`/api/movies/${newMovie._id}`).send({
+      title: 'new title',
+      description: 'new description',
+      coverImage: newMovie.coverImage,
+      genre: 'action',
+    });
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({
       id: response.body.id,
@@ -250,10 +247,9 @@ describe('unit tests', () => {
     });
     const response = await agent.delete(`/api/movies/${newMovie._id}`).send();
     expect(response.statusCode).toBe(200);
-    const movie = await agent.get(`/api/movies?id=${newMovie._id}`).send();
+    const movie = await agent.get(`/api/movies/${newMovie._id}`).send();
     expect(movie.statusCode).toBe(404);
     expect(movie.body.success).toEqual(false);
-    expect(movie.body.errors[0].status).toEqual(404);
   });
 
   it('should fail finding a movie', async () => {
@@ -264,10 +260,9 @@ describe('unit tests', () => {
       password: 'password123',
     });
     const response = await agent
-      .get('/api/movies?id=64036b4b759c01f1e686654a') // random id which is wrong
+      .get('/api/movies/64036b4b759c01f1e686654a') // random id which is wrong
       .send();
     expect(response.statusCode).toBe(404);
     expect(response.body.success).toEqual(false);
-    expect(response.body.errors[0].status).toEqual(404);
   });
 });

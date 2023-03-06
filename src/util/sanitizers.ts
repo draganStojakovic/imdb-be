@@ -32,17 +32,19 @@ export const sanitizeMovie = (movie: IMovie) => {
 };
 
 export const sanitizeError = (
-  message: string,
-  status: number,
-  location = 'body'
+  msg: string,
+  location = 'body',
+  value?: string,
+  param?: string,
 ) => {
   return {
     success: false,
     errors: [
       {
-        message,
-        status,
+        msg,
         location,
+        value,
+        param,
       },
     ],
   };

@@ -10,6 +10,6 @@ export const deleteMovie = async (req: Request, res: Response) => {
     return res.status(200).json(sanitizeMovie(deletedMovie));
   } catch (e) {
     console.log(e);
-    return res.status(500).json(sanitizeError('Server Error', 500));
+    return res.status(500).json(sanitizeError('Server Error'));
   }
 };
