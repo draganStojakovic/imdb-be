@@ -1,5 +1,6 @@
 import { IMovie } from 'types/IMovie';
 import { iUser } from 'types/iUser';
+import { IGenre } from 'types/IGenre';
 
 export const sanitizeUser = (user: iUser) => {
   return {
@@ -16,7 +17,7 @@ export const sanitizeMovies = (movies: IMovie[]) => {
       title: movie.title,
       description: movie.description,
       coverImage: movie.coverImage,
-      genre: movie.genre,
+      genres: movie.genres,
     };
   });
 };
@@ -27,7 +28,7 @@ export const sanitizeMovie = (movie: IMovie) => {
     title: movie.title,
     description: movie.description,
     coverImage: movie.coverImage,
-    genre: movie.genre,
+    genres: movie.genres,
   };
 };
 
@@ -35,7 +36,7 @@ export const sanitizeError = (
   msg: string,
   location = 'body',
   value?: string,
-  param?: string,
+  param?: string
 ) => {
   return {
     success: false,
@@ -48,4 +49,13 @@ export const sanitizeError = (
       },
     ],
   };
+};
+
+export const sanitizeGenres = (genres: IGenre[]) => {
+  return genres?.map((genre) => {
+    return {
+      id: genre._id,
+      name: genre.name,
+    };
+  });
 };

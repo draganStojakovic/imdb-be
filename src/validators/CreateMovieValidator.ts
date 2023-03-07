@@ -1,6 +1,7 @@
 import { body } from 'express-validator';
 import { URL } from 'url';
 import { Movie } from 'database/schemas/Movie';
+import { Genre } from 'database/schemas/Genre';
 
 const createMovieValidator = [
   body('title')
@@ -29,11 +30,19 @@ const createMovieValidator = [
       return true;
     })
     .withMessage('Cover image must be a link'),
-  body('genre')
+  body('genres')
     .exists({ checkFalsy: true })
-    .withMessage('Genre is required')
-    .isString()
-    .withMessage('Genre must be string type'),
+    .withMessage('Genres are required')
+    .custom(async (genres) => {
+      for (let i = 0; i < genres.length; i++) {
+        if (typeof genres[i] !== 'string') {
+          throw new Error('Genres must be an array of strings.');
+        }
+        const genre = await Genre.exists({ _id: genres[i] });
+        if (!genre) throw new Error(`Genre of id: ${genres[i]} not found.`);
+      }
+      return true;
+    }),
 ];
 
 export default createMovieValidator;

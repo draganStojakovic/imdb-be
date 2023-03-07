@@ -6,7 +6,7 @@ export const getSingleMovie = async (req: Request, res: Response) => {
   const id = req.params.id;
 
   try {
-    const movie = await Movie.findById(id);
+    const movie = await Movie.findById(id).populate('genres');
     if (!movie) return res.status(404).json(sanitizeError('Not Found'));
     return res.status(200).json(sanitizeMovie(movie));
   } catch (e) {

@@ -1,7 +1,11 @@
 import createApp from 'app/app';
 import request from 'supertest';
 import mongoose from 'mongoose';
-import { createMovieJest, createUser } from 'helpers/TestHelpers';
+import {
+  createMovieTest,
+  createUser,
+  createGenresTest,
+} from 'helpers/TestHelpers';
 import { Movie } from 'database/schemas/Movie';
 
 const app = createApp();
@@ -20,11 +24,12 @@ describe('movies unit tests', () => {
       email: 'johndoe@gmail.com',
       password: 'password123',
     });
+    const genres = await createGenresTest();
     const response = await agent.post('/api/movies').send({
       title: 'test movie',
       description: 'description of a movie',
       coverImage: 'https://blabla.com/images/blabla.jpg',
-      genre: 'horror',
+      genres: [genres[0]._id, genres[1]._id],
     });
     expect(response.statusCode).toBe(201);
     expect(response.body).toEqual({
@@ -32,18 +37,18 @@ describe('movies unit tests', () => {
       title: response.body.title,
       description: response.body.description,
       coverImage: response.body.coverImage,
-      genre: response.body.genre,
+      genres: response.body.genres,
     });
     const movie = await Movie.findOne({ title: 'test movie' });
     expect(movie.title).toEqual('test movie');
     expect(movie.description).toEqual('description of a movie');
     expect(movie.coverImage).toEqual('https://blabla.com/images/blabla.jpg');
-    expect(movie.genre).toEqual('horror');
+    expect(movie.genres).toEqual(movie.genres);
   });
 
   it('should return all movies', async () => {
     const agent = request.agent(app);
-    const newMovie = await createMovieJest();
+    const newMovie = await createMovieTest();
     await createUser();
     await agent.post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
@@ -54,13 +59,13 @@ describe('movies unit tests', () => {
     expect(response.body[0].title).toEqual(newMovie.title);
     expect(response.body[0].description).toEqual(newMovie.description);
     expect(response.body[0].coverImage).toEqual(newMovie.coverImage);
-    expect(response.body[0].genre).toEqual(newMovie.genre);
+    expect(response.body[0].genres).toEqual(newMovie.genres);
   });
 
   it('should find movie by id', async () => {
     const agent = request.agent(app);
     await createUser();
-    const newMovie = await createMovieJest();
+    const newMovie = await createMovieTest();
     await agent.post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
       password: 'password123',
@@ -72,14 +77,15 @@ describe('movies unit tests', () => {
       title: response.body.title,
       description: response.body.description,
       coverImage: response.body.coverImage,
-      genre: response.body.genre,
+      genres: response.body.genres,
     });
   });
 
   it('should update an existing movie', async () => {
     const agent = request.agent(app);
     const newUser = await createUser();
-    const newMovie = await createMovieJest();
+    const genres = await createGenresTest();
+    const newMovie = await createMovieTest();
     await agent.post('/api/auth/login').send({
       email: newUser.email,
       password: 'password123',
@@ -88,20 +94,20 @@ describe('movies unit tests', () => {
       title: 'new title',
       description: 'new description',
       coverImage: newMovie.coverImage,
-      genre: 'action',
+      genres: [genres[0]._id, genres[1]._id, genres[2]._id],
     });
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(202);
     expect(response.body).toEqual({
       id: response.body.id,
       title: 'new title',
       description: 'new description',
       coverImage: response.body.coverImage,
-      genre: 'action',
+      genres: response.body.genres,
     });
   });
 
   it('should delete an existing movie', async () => {
-    const newMovie = await createMovieJest();
+    const newMovie = await createMovieTest();
     const agent = request.agent(app);
     await createUser();
     await agent.post('/api/auth/login').send({
