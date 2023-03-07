@@ -4,14 +4,14 @@ import { body } from 'express-validator';
 const registerValidator = [
   body('fname')
     .exists({ checkFalsy: true })
-    .withMessage('Name is required')
+    .withMessage('First name is required')
     .isString()
-    .withMessage('Name must be string type'),
+    .withMessage('First name must be string type'),
   body('lname')
     .exists({ checkFalsy: true })
-    .withMessage('Name is required')
+    .withMessage('Last name is required')
     .isString()
-    .withMessage('Name must be string type'),
+    .withMessage('Last name must be string type'),
   body('email')
     .exists({ checkFalsy: true })
     .withMessage('Email is required')

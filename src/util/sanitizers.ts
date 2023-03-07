@@ -1,4 +1,6 @@
+import { IMovie } from 'types/IMovie';
 import { iUser } from 'types/iUser';
+import { IGenre } from 'types/IGenre';
 
 export const sanitizeUser = (user: iUser) => {
   return {
@@ -8,19 +10,59 @@ export const sanitizeUser = (user: iUser) => {
   };
 };
 
+export const sanitizeMovies = (movies: IMovie[]) => {
+  return movies.map((movie) => {
+    return {
+      id: movie._id,
+      title: movie.title,
+      description: movie.description,
+      coverImage: movie.coverImage,
+      genres: movie.genres,
+    };
+  });
+};
+
+export const sanitizeMovie = (movie: IMovie) => {
+  return {
+    id: movie._id,
+    title: movie.title,
+    description: movie.description,
+    coverImage: movie.coverImage,
+    genres: movie.genres,
+  };
+};
+
 export const sanitizeError = (
-  message: string,
-  status: number,
-  location = 'body'
+  msg: string,
+  location = 'body',
+  value?: string,
+  param?: string
 ) => {
   return {
     success: false,
     errors: [
       {
-        message,
-        status,
+        msg,
         location,
+        value,
+        param,
       },
     ],
+  };
+};
+
+export const sanitizeGenres = (genres: IGenre[]) => {
+  return genres?.map((genre) => {
+    return {
+      id: genre._id,
+      name: genre.name,
+    };
+  });
+};
+
+export const sanitizeGenre = (genre: IGenre) => {
+  return {
+    id: genre._id,
+    name: genre.name,
   };
 };

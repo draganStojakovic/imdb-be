@@ -1,7 +1,7 @@
 import createApp from 'app/app';
 import request from 'supertest';
 import mongoose from 'mongoose';
-import createUser from 'helpers/TestHelpers';
+import { createUser } from 'helpers/TestHelpers';
 import { User } from 'database/schemas/User';
 
 const app = createApp();
@@ -28,9 +28,9 @@ describe('auth unit tests', () => {
       email: response.body.email,
     });
     const user = await User.findOne({ email: 'johndoe@gmail.com' });
-    expect(user.fname).toEqual("John");
-    expect(user.lname).toEqual("Doe");
-    expect(user.email).toEqual("johndoe@gmail.com");
+    expect(user.fname).toEqual('John');
+    expect(user.lname).toEqual('Doe');
+    expect(user.email).toEqual('johndoe@gmail.com');
   });
 
   it('should log in an user', async () => {
@@ -97,8 +97,7 @@ describe('auth unit tests', () => {
       success: false,
       errors: [
         {
-          message: 'Bad credentials.',
-          status: 401,
+          msg: 'Bad credentials.',
           location: 'body',
         },
       ],
