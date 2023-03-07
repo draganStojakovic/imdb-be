@@ -35,16 +35,20 @@ export const createMovieTest = async () => {
 
 export const createGenresTest = async () => {
   try {
-    const action = await Genre.create({
-      name: 'action',
-    });
-    const horror = await Genre.create({
-      name: 'horror',
-    });
-    const comedy = await Genre.create({
-      name: 'comedy',
-    });
-    return [action, horror, comedy];
+    return await Genre.insertMany([
+      {
+        name: 'action',
+      },
+      {
+        name: 'horror',
+      },
+      {
+        name: 'comedy',
+      },
+      {
+        name: 'animation',
+      },
+    ]);
   } catch (e) {
     return null;
   }

@@ -7,13 +7,13 @@ export const createMovie = async (req: Request, res: Response) => {
 
   try {
     const newMovie = await Movie.create({
-      title: title,
-      description: description,
-      coverImage: coverImage,
-      genres: genres,
+      title,
+      description,
+      coverImage,
+      genres,
     });
-    const movie = await Movie.findById(newMovie._id).populate('genres');
-    return res.status(201).json(sanitizeMovie(movie));
+    await newMovie.populate('genres');
+    return res.status(201).json(sanitizeMovie(newMovie));
   } catch (e) {
     console.log(e);
     return res.status(500).json(sanitizeError('Server Error'));
