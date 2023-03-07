@@ -117,7 +117,7 @@ describe('movies unit tests', () => {
     const response = await agent.delete(`/api/movies/${newMovie._id}`).send();
     expect(response.statusCode).toBe(200);
     const movie = await agent.get(`/api/movies/${newMovie._id}`).send();
-    expect(movie.statusCode).toBe(404);
+    expect(movie.statusCode).toBe(400);
     expect(movie.body.success).toEqual(false);
   });
 
@@ -131,7 +131,7 @@ describe('movies unit tests', () => {
     const response = await agent
       .get('/api/movies/64036b4b759c01f1e686654a') // random id which is wrong
       .send();
-    expect(response.statusCode).toBe(404);
+    expect(response.statusCode).toBe(400);
     expect(response.body.success).toEqual(false);
   });
 });

@@ -59,3 +59,10 @@ export const sanitizeGenres = (genres: IGenre[]) => {
     };
   });
 };
+
+export const sanitizeGenre = (genre: IGenre) => {
+  return {
+    id: genre._id,
+    name: genre.name,
+  };
+};

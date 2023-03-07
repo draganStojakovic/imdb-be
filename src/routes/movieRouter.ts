@@ -14,7 +14,13 @@ export const movieRouter = Router();
 
 movieRouter.get('/movies', auth, getMovies);
 
-movieRouter.get('/movies/:id', auth, getSingleMovieValidator, getSingleMovie);
+movieRouter.get(
+  '/movies/:id',
+  auth,
+  getSingleMovieValidator,
+  schemaValidator,
+  getSingleMovie
+);
 
 movieRouter.post(
   '/movies',
