@@ -1,8 +1,8 @@
-import { createMovie } from 'controllers/createMovie';
-import { deleteMovie } from 'controllers/deleteMovie';
-import { getMovies } from 'controllers/getMovies';
-import { getSingleMovie } from 'controllers/getSingleMovie';
-import { updateMovie } from 'controllers/updateMovie';
+import { createMovie } from 'controllers/movies/createMovie';
+import { deleteMovie } from 'controllers/movies/deleteMovie';
+import { getMovies } from 'controllers/movies/getMovies';
+import { getSingleMovie } from 'controllers/movies/getSingleMovie';
+import { updateMovie } from 'controllers/movies/updateMovie';
 import { Router } from 'express';
 import { auth } from 'middleware/auth';
 import createMovieValidator from 'validators/CreateMovieValidator';

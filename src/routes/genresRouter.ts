@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { auth } from 'middleware/auth';
-import { getGenres } from 'controllers/getGenres';
+import { getGenres } from 'controllers/genres/getGenres';
 import getSingleGenreValidator from 'validators/getSingleGenreValidator';
 import schemaValidator from 'validators/schemaValidator';
-import { getSingleGenre } from 'controllers/getSingleGenre';
+import { getSingleGenre } from 'controllers/genres/getSingleGenre';
 
 export const genreRouter = Router();
 
