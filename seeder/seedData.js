@@ -24,9 +24,9 @@ async function seed() {
     db.dropDatabase('imdb');
 
     let genresCol = db.collection('genres');
-    genresCol.insertMany(genres);
+    await genresCol.insertMany(genres);
     let moviesCol = db.collection('movies');
-    moviesCol.insertMany(movies);
+    await moviesCol.insertMany(movies);
   } catch (err) {
     console.log(err);
   } finally {
