@@ -1,37 +1,43 @@
 const MongoClient = require('mongodb').MongoClient;
-const fs = require('fs');
-const URL = 'mongodb://127.0.0.1:27017';
 
-let genresData = fs.readFileSync('genres.json');
-const genres = JSON.parse(genresData);
-
-let moviesData = fs.readFileSync('movies.json');
-const movies = JSON.parse(moviesData);
-
-async function seed() {
-  const client = await MongoClient.connect(URL, {
-    useNewUrlParser: true,
-  }).catch((err) => {
-    console.log(err);
-  });
-
-  if (!client) {
-    return;
-  }
-
+(async () => {
+  const url = 'mongodb://127.0.0.1:27017/imdb';
+  const client = new MongoClient(url, {});
   try {
-    const db = client.db('imdb');
-    db.dropDatabase('imdb');
-
-    let genresCol = db.collection('genres');
-    await genresCol.insertMany(genres);
-    let moviesCol = db.collection('movies');
-    await moviesCol.insertMany(movies);
-  } catch (err) {
-    console.log(err);
-  } finally {
-    client.close();
+    await client.connect();
+    const collection = client.db().collection('genres');
+    const genres = [
+      {
+        name: 'Action',
+      },
+      {
+        name: 'Documentory',
+      },
+      {
+        name: 'Comedy',
+      },
+      {
+        name: 'Fantacy',
+      },
+      {
+        name: 'Superhero',
+      },
+      {
+        name: 'Drama',
+      },
+      {
+        name: 'Romance',
+      },
+      {
+        name: 'Sci-Fi',
+      },
+    ];
+    await collection.deleteMany();
+    await collection.insertMany(genres);
+    console.log(`${genres.length} genres seeded`);
+    process.exit(0);
+  } catch (error) {
+    console.log(error.stack);
+    process.exit(1);
   }
-}
-
-seed();
+})();
