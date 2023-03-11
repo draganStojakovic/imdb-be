@@ -19,7 +19,7 @@ export const getMovies = async (req: Request, res: Response) => {
     return res.status(200).json({
       movies: sanitizedMovies,
       totalPages: Math.ceil(count / Number(limit)),
-      currentPage: page,
+      currentPage: Number(page),
     });
   } catch (e) {
     console.log(e);

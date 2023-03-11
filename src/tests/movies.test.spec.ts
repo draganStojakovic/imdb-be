@@ -54,7 +54,7 @@ describe('movies unit tests', () => {
       email: 'johndoe@gmail.com',
       password: 'password123',
     });
-    const response = await agent.get('/api/movies').send();
+    const response = await agent.get('/api/movies?page=1&limit=10').send();
     expect(response.statusCode).toBe(200);
     expect(response.body.movies[0].title).toEqual(newMovie.title);
     expect(response.body.movies[0].title).toEqual(newMovie.title);
