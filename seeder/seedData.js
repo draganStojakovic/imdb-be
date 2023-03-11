@@ -17,7 +17,7 @@ const MongoClient = require('mongodb').MongoClient;
         name: 'Comedy',
       },
       {
-        name: 'Fantacy',
+        name: 'Fantasy',
       },
       {
         name: 'Superhero',
