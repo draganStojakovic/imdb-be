@@ -46,7 +46,7 @@ describe('movies unit tests', () => {
     expect(movie.genres).toEqual(movie.genres);
   });
 
-  it('should return all movies', async () => {
+  it('should return all movies paginated', async () => {
     const agent = request.agent(app);
     const newMovie = await createMovieTest();
     await createUser();
@@ -56,10 +56,10 @@ describe('movies unit tests', () => {
     });
     const response = await agent.get('/api/movies').send();
     expect(response.statusCode).toBe(200);
-    expect(response.body[0].title).toEqual(newMovie.title);
-    expect(response.body[0].description).toEqual(newMovie.description);
-    expect(response.body[0].coverImage).toEqual(newMovie.coverImage);
-    expect(response.body[0].genres).toEqual(newMovie.genres);
+    expect(response.body.movies[0].title).toEqual(newMovie.title);
+    expect(response.body.movies[0].title).toEqual(newMovie.title);
+    expect(response.body.movies[0].coverImage).toEqual(newMovie.coverImage);
+    expect(response.body.movies[0].genres).toEqual(newMovie.genres);
   });
 
   it('should find movie by id', async () => {
