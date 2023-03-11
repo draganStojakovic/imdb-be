@@ -13,7 +13,13 @@ import updateMovieValidator from 'validators/UpdateMovieValidator';
 
 export const movieRouter = Router();
 
-movieRouter.get('/movies', auth, getMoviesValidator, getMovies);
+movieRouter.get(
+  '/movies',
+  auth,
+  getMoviesValidator,
+  schemaValidator,
+  getMovies
+);
 
 movieRouter.get(
   '/movies/:id',
