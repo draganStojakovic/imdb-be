@@ -60,6 +60,7 @@ describe('movies unit tests', () => {
     expect(response.body.movies[0].title).toEqual(newMovie.title);
     expect(response.body.movies[0].coverImage).toEqual(newMovie.coverImage);
     expect(response.body.movies[0].genres).toEqual(newMovie.genres);
+    expect(response.body.currentPage).toEqual(1);
   });
 
   it('should find movie by id', async () => {
