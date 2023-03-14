@@ -11,13 +11,13 @@ const MongoClient = require('mongodb').MongoClient;
         name: 'Action',
       },
       {
-        name: 'Documentory',
+        name: 'Documentary',
       },
       {
         name: 'Comedy',
       },
       {
-        name: 'Fantacy',
+        name: 'Fantasy',
       },
       {
         name: 'Superhero',

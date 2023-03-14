@@ -6,13 +6,20 @@ import { updateMovie } from 'controllers/movies/updateMovie';
 import { Router } from 'express';
 import { auth } from 'middleware/auth';
 import createMovieValidator from 'validators/CreateMovieValidator';
+import getMoviesValidator from 'validators/getMoviesValidator';
 import getSingleMovieValidator from 'validators/getSingleMovieValidator';
 import schemaValidator from 'validators/schemaValidator';
 import updateMovieValidator from 'validators/UpdateMovieValidator';
 
 export const movieRouter = Router();
 
-movieRouter.get('/movies', auth, getMovies);
+movieRouter.get(
+  '/movies',
+  auth,
+  getMoviesValidator,
+  schemaValidator,
+  getMovies
+);
 
 movieRouter.get(
   '/movies/:id',
