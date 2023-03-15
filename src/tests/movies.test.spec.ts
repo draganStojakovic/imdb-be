@@ -63,6 +63,23 @@ describe('movies unit tests', () => {
     expect(response.body.currentPage).toEqual(1);
   });
 
+  it('should return movies paginated and filtered by title', async () => {
+    const agent = request.agent(app);
+    const newMovie = await createMovieTest();
+    await createUser();
+    await agent.post('/api/auth/login').send({
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+    });
+    const response = await agent.get('/api/movies?page=1&limit=10&search=test').send();
+    expect(response.statusCode).toBe(200);
+    expect(response.body.movies[0].title).toEqual(newMovie.title);
+    expect(response.body.movies[0].title).toEqual(newMovie.title);
+    expect(response.body.movies[0].coverImage).toEqual(newMovie.coverImage);
+    expect(response.body.movies[0].genres).toEqual(newMovie.genres);
+    expect(response.body.currentPage).toEqual(1);
+  });
+
   it('should find movie by id', async () => {
     const agent = request.agent(app);
     await createUser();

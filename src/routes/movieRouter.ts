@@ -1,12 +1,10 @@
 import { createMovie } from 'controllers/movies/createMovie';
 import { deleteMovie } from 'controllers/movies/deleteMovie';
 import { getMovies } from 'controllers/movies/getMovies';
-import { getSearchedMovies } from 'controllers/movies/getSearchedMovies';
 import { getSingleMovie } from 'controllers/movies/getSingleMovie';
 import { updateMovie } from 'controllers/movies/updateMovie';
 import { Router } from 'express';
 import { auth } from 'middleware/auth';
-import getSearchedMoviesValidator from 'validators/auth/getSearchedMoviesValidator';
 import createMovieValidator from 'validators/CreateMovieValidator';
 import getMoviesValidator from 'validators/getMoviesValidator';
 import getSingleMovieValidator from 'validators/getSingleMovieValidator';
@@ -21,14 +19,6 @@ movieRouter.get(
   getMoviesValidator,
   schemaValidator,
   getMovies
-);
-
-movieRouter.get(
-  '/search-movies',
-  auth,
-  getSearchedMoviesValidator,
-  schemaValidator,
-  getSearchedMovies
 );
 
 movieRouter.get(
