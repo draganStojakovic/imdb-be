@@ -2,8 +2,25 @@ import { Request, Response } from 'express';
 import { sanitizeError, sanitizeMovies } from 'util/sanitizers';
 import { Movie } from 'database/schemas/Movie';
 
+function genresQueryFormatter(value: string): string | string[] {
+  if (value.indexOf(',') !== -1) {
+    return value.split(',');
+  }
+
+  return value;
+}
+
 export const getMovies = async (req: Request, res: Response) => {
-  const { page = 1, limit = 10, search = undefined } = req.query;
+  const {
+    page = 1,
+    limit = 10,
+    search = undefined,
+    genres = undefined,
+  } = req.query;
+
+  if (typeof genres === 'string') {
+    var formattedGenres = genresQueryFormatter(genres);
+  }
 
   if (search) {
     try {
