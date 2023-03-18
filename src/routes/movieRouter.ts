@@ -20,27 +20,31 @@ import { getMoviesPaginatedSearchGenres } from 'controllers/movies/getMoviesPagi
 
 export const movieRouter = Router();
 
-movieRouter.get('/movies', auth, moviesEndPointRedirect);
+movieRouter.get('/movies', moviesEndPointRedirect);
 movieRouter.get(
   '/movies-paginated',
+  auth,
   moviesPaginatedValidator,
   schemaValidator,
   getMoviesPaginated
 );
 movieRouter.get(
   '/movies-paginated-search',
+  auth,
   moviesPaginatedSearchValidator,
   schemaValidator,
   getMoviesPaginatedSearch
 );
 movieRouter.get(
   '/movies-paginated-genres',
+  auth,
   moviesPaginatedGenresValidator,
   schemaValidator,
   getMoviesPaginatedGenres
 );
 movieRouter.get(
   '/movies-paginated-search-genres',
+  auth,
   moviesPaginatedSearchGenresValidator,
   schemaValidator,
   getMoviesPaginatedSearchGenres
