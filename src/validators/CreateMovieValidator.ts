@@ -28,8 +28,7 @@ const createMovieValidator = [
       const url = new URL(coverImage);
       if (!url) throw new Error('Cover image must be a link');
       return true;
-    })
-    .withMessage('Cover image must be a link'),
+    }),
   body('genres')
     .exists({ checkFalsy: true })
     .withMessage('Genres are required')

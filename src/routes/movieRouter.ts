@@ -17,8 +17,18 @@ import moviesPaginatedGenresValidator from 'validators/getMovies/moviesPaginated
 import { getMoviesPaginatedGenres } from 'controllers/movies/getMoviesPaginatedGenres';
 import moviesPaginatedSearchGenresValidator from 'validators/getMovies/moviesPaginatedSearchGenresValidator';
 import { getMoviesPaginatedSearchGenres } from 'controllers/movies/getMoviesPaginatedSearchGenres';
+import likeMovieValidator from 'validators/likeDislikeMovie/likeMovieValidator';
+import { likeMovie } from 'controllers/movies/likeMovie';
 
 export const movieRouter = Router();
+
+movieRouter.get(
+  '/movies/:id',
+  auth,
+  getSingleMovieValidator,
+  schemaValidator,
+  getSingleMovie
+);
 
 movieRouter.get('/movies', moviesEndPointRedirect);
 movieRouter.get(
@@ -50,12 +60,12 @@ movieRouter.get(
   getMoviesPaginatedSearchGenres
 );
 
-movieRouter.get(
-  '/movies/:id',
+movieRouter.put(
+  '/like-movie',
   auth,
-  getSingleMovieValidator,
+  likeMovieValidator,
   schemaValidator,
-  getSingleMovie
+  likeMovie
 );
 
 movieRouter.post(

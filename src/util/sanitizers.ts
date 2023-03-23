@@ -29,6 +29,8 @@ export const sanitizeMovie = (movie: IMovie) => {
     description: movie.description,
     coverImage: movie.coverImage,
     genres: movie.genres,
+    likes: movie.likes,
+    dislikes: movie.dislikes,
   };
 };
 
