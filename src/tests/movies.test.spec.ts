@@ -46,7 +46,7 @@ describe('movies unit tests', () => {
     expect(movie.genres).toEqual(movie.genres);
   });
 
-  it('should return all movies paginated', async () => {
+  it('should hit root movies endpoint with two query params and redirect', async () => {
     const agent = request.agent(app);
     const newMovie = await createMovieTest();
     await createUser();
@@ -55,15 +55,10 @@ describe('movies unit tests', () => {
       password: 'password123',
     });
     const response = await agent.get('/api/movies?page=1&limit=10').send();
-    expect(response.statusCode).toBe(200);
-    expect(response.body.movies[0].title).toEqual(newMovie.title);
-    expect(response.body.movies[0].title).toEqual(newMovie.title);
-    expect(response.body.movies[0].coverImage).toEqual(newMovie.coverImage);
-    expect(response.body.movies[0].genres).toEqual(newMovie.genres);
-    expect(response.body.currentPage).toEqual(1);
+    expect(response.statusCode).toBe(302);
   });
 
-  it('should return movies paginated and filtered by title', async () => {
+  it('should hit root movies endpoint with three query params and redirect', async () => {
     const agent = request.agent(app);
     const newMovie = await createMovieTest();
     await createUser();
@@ -71,7 +66,42 @@ describe('movies unit tests', () => {
       email: 'johndoe@gmail.com',
       password: 'password123',
     });
-    const response = await agent.get('/api/movies?page=1&limit=10&search=test').send();
+    const response = await agent
+      .get('/api/movies?page=1&limit=10&search=test')
+      .send();
+    expect(response.statusCode).toBe(302);
+  });
+
+  it('should hit root movies endpoint with four query params and redirect', async () => {
+    const agent = request.agent(app);
+    const newMovie = await createMovieTest();
+    await createUser();
+    await agent.post('/api/auth/login').send({
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+    });
+    const genres = await agent.get('/api/genres');
+    expect(genres.statusCode).toBe(200);
+    expect(genres.body[0].id).toEqual(genres.body[0].id);
+    const response = await agent
+      .get(
+        `/api/movies?page=1&limit=10&search=test&genres=${genres.body[0].id}`
+      )
+      .send();
+    expect(response.statusCode).toBe(302);
+  });
+
+  it('should return all movies paginated', async () => {
+    const agent = request.agent(app);
+    const newMovie = await createMovieTest();
+    await createUser();
+    await agent.post('/api/auth/login').send({
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+    });
+    const response = await agent
+      .get('/api/movies-paginated?page=1&limit=10')
+      .send();
     expect(response.statusCode).toBe(200);
     expect(response.body.movies[0].title).toEqual(newMovie.title);
     expect(response.body.movies[0].title).toEqual(newMovie.title);

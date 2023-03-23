@@ -108,7 +108,14 @@ describe('auth unit tests', () => {
     const response = await request(app).post('/api/auth/logout').send();
     expect(response.statusCode).toBe(401);
     expect(response.body).toEqual({
-      error: 'Not authentificated.',
+      success: false,
+      errors: [
+        {
+          msg: 'Not authentificated.',
+          location: 'body',
+          value: '401',
+        },
+      ],
     });
   });
 
@@ -116,7 +123,14 @@ describe('auth unit tests', () => {
     const response = await request(app).post('/api/auth/me').send();
     expect(response.statusCode).toBe(401);
     expect(response.body).toEqual({
-      error: 'Not authentificated.',
+      success: false,
+      errors: [
+        {
+          msg: 'Not authentificated.',
+          location: 'body',
+          value: '401',
+        },
+      ],
     });
   });
 
