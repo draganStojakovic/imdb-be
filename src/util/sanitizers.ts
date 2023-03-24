@@ -18,6 +18,8 @@ export const sanitizeMovies = (movies: IMovie[]) => {
       description: movie.description,
       coverImage: movie.coverImage,
       genres: movie.genres,
+      likes: movie.likes,
+      dislikes: movie.dislikes,
     };
   });
 };

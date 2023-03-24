@@ -19,6 +19,8 @@ import moviesPaginatedSearchGenresValidator from 'validators/getMovies/moviesPag
 import { getMoviesPaginatedSearchGenres } from 'controllers/movies/getMoviesPaginatedSearchGenres';
 import likeMovieValidator from 'validators/likeDislikeMovie/likeMovieValidator';
 import { likeMovie } from 'controllers/movies/likeMovie';
+import dislikeMovieValidator from 'validators/likeDislikeMovie/dislikeMovieValidator';
+import { dislikeMovie } from 'controllers/movies/dislikeMovie';
 
 export const movieRouter = Router();
 
@@ -66,6 +68,14 @@ movieRouter.put(
   likeMovieValidator,
   schemaValidator,
   likeMovie
+);
+
+movieRouter.put(
+  '/dislike-movie',
+  auth,
+  dislikeMovieValidator,
+  schemaValidator,
+  dislikeMovie
 );
 
 movieRouter.post(
