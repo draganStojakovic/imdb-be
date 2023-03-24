@@ -62,16 +62,10 @@ movieRouter.get(
   getMoviesPaginatedSearchGenres
 );
 
-movieRouter.put(
-  '/like-movie',
-  auth,
-  likeMovieValidator,
-  schemaValidator,
-  likeMovie
-);
+movieRouter.put('/likes', auth, likeMovieValidator, schemaValidator, likeMovie);
 
 movieRouter.put(
-  '/dislike-movie',
+  '/dislikes',
   auth,
   dislikeMovieValidator,
   schemaValidator,

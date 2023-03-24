@@ -12,6 +12,12 @@ const dislikeMovieValidator = [
 
     if (!movie) throw new Error('Invalid movie id.');
 
+    const movieLiked = await Movie.count({ likes: userId }).where({
+      _id: movieId,
+    });
+
+    if (movieLiked) throw new Error('Movie is liked.');
+
     const movieDisliked = await Movie.count({ dislikes: userId }).where({
       _id: movieId,
     });
