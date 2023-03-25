@@ -27,7 +27,11 @@ const votesMovieValidator = [
     .exists({ checkFalsy: true })
     .withMessage('button query is required')
     .isString()
-    .withMessage('button query must be string type'),
+    .withMessage('button query must be string type')
+    .custom((button) => {
+      if (button === 'like' || button === 'dislike') return true;
+      throw new Error('Invalid button keyword.');
+    }),
 ];
 
 export default votesMovieValidator;
