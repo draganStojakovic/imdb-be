@@ -14,18 +14,25 @@ export const voteMovie = async (req: Request, res: Response) => {
   const disliked = await Movie.count({ dislikes: userId }).where({
     _id: movieId,
   });
-
-  if (button === 'like' && liked === 0 && disliked === 0) {
-    addLike(req, res);
-  } else if (button === 'like' && liked > 0 && disliked === 0) {
-    removeLike(req, res);
-  } else if (button === 'like' && liked === 0 && disliked > 0) {
-    removeDislikeAddLike(req, res);
-  } else if (button === 'dislike' && liked === 0 && disliked === 0) {
-    addDislike(req, res);
-  } else if (button === 'dislike' && liked === 0 && disliked > 0) {
-    removeDislike(req, res);
-  } else if (button === 'dislike' && liked > 0 && disliked === 0) {
-    removeLikeAddDislike(req, res);
+  
+  switch (button) {
+    case 'like':
+      if (liked === 0 && disliked === 0) {
+        addLike(req, res);
+      } else if (liked > 0 && disliked === 0) {
+        removeLike(req, res);
+      } else if (liked === 0 && disliked > 0) {
+        removeDislikeAddLike(req, res);
+      }
+      break;
+    case 'dislike':
+      if (liked === 0 && disliked === 0) {
+        addDislike(req, res);
+      } else if (liked === 0 && disliked > 0) {
+        removeDislike(req, res);
+      } else if (liked > 0 && disliked === 0) {
+        removeLikeAddDislike(req, res);
+      }
+      break;
   }
 };
