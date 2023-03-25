@@ -15,12 +15,14 @@ const movieSchema = new mongoose.Schema<IMovie>(
     likes: [
       {
         type: Schema.Types.ObjectId,
+        unique: true,
         ref: 'User',
       },
     ],
     dislikes: [
       {
         type: Schema.Types.ObjectId,
+        unique: true,
         ref: 'User',
       },
     ],

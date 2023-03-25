@@ -4,6 +4,7 @@ import { IGenre } from 'types/IGenre';
 
 export const sanitizeUser = (user: iUser) => {
   return {
+    id: user._id,
     fname: user.fname,
     lname: user.lname,
     email: user.email,
