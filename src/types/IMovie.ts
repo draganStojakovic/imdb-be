@@ -4,4 +4,6 @@ export interface IMovie {
   description: string;
   coverImage: string;
   genres: string[];
+  likes: string[];
+  dislikes: string[];
 }

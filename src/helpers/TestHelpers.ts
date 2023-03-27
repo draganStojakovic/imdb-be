@@ -25,7 +25,9 @@ export const createMovieTest = async () => {
       title: 'test movie',
       description: 'description of a movie',
       coverImage: 'https://blabla.com/images/blabla.jpg',
-      genre: [genres[0]._id, genres[2]._id],
+      genres: [genres[0]._id, genres[2]._id],
+      likes: [],
+      dislikes: [],
     });
     return newMovie;
   } catch (e) {

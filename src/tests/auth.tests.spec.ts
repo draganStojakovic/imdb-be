@@ -23,6 +23,7 @@ describe('auth unit tests', () => {
     });
     expect(response.statusCode).toBe(201);
     expect(response.body).toEqual({
+      id: response.body.id,
       fname: response.body.fname,
       lname: response.body.lname,
       email: response.body.email,
@@ -41,6 +42,7 @@ describe('auth unit tests', () => {
     });
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({
+      id: response.body.id,
       fname: response.body.fname,
       lname: response.body.lname,
       email: response.body.email,
@@ -56,6 +58,7 @@ describe('auth unit tests', () => {
     });
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({
+      id: response.body.id,
       fname: response.body.fname,
       lname: response.body.lname,
       email: response.body.email,
@@ -73,6 +76,7 @@ describe('auth unit tests', () => {
     });
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({
+      id: response.body.id,
       fname: response.body.fname,
       lname: response.body.lname,
       email: response.body.email,
@@ -80,6 +84,7 @@ describe('auth unit tests', () => {
     const me = await agent.post('/api/auth/me');
     expect(me.statusCode).toBe(200);
     expect(me.body).toEqual({
+      id: response.body.id,
       fname: me.body.fname,
       lname: me.body.lname,
       email: me.body.email,

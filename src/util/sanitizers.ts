@@ -4,6 +4,7 @@ import { IGenre } from 'types/IGenre';
 
 export const sanitizeUser = (user: iUser) => {
   return {
+    id: user._id,
     fname: user.fname,
     lname: user.lname,
     email: user.email,
@@ -18,6 +19,8 @@ export const sanitizeMovies = (movies: IMovie[]) => {
       description: movie.description,
       coverImage: movie.coverImage,
       genres: movie.genres,
+      likes: movie.likes,
+      dislikes: movie.dislikes,
     };
   });
 };
@@ -29,6 +32,8 @@ export const sanitizeMovie = (movie: IMovie) => {
     description: movie.description,
     coverImage: movie.coverImage,
     genres: movie.genres,
+    likes: movie.likes,
+    dislikes: movie.dislikes,
   };
 };
 
