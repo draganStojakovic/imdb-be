@@ -38,6 +38,8 @@ describe('movies unit tests', () => {
       description: response.body.description,
       coverImage: response.body.coverImage,
       genres: response.body.genres,
+      likes: [],
+      dislikes: [],
     });
     const movie = await Movie.findOne({ title: 'test movie' });
     expect(movie.title).toEqual('test movie');
@@ -48,7 +50,7 @@ describe('movies unit tests', () => {
 
   it('should hit root movies endpoint with two query params and redirect', async () => {
     const agent = request.agent(app);
-    const newMovie = await createMovieTest();
+    await createMovieTest();
     await createUser();
     await agent.post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
@@ -60,7 +62,7 @@ describe('movies unit tests', () => {
 
   it('should hit root movies endpoint with three query params and redirect', async () => {
     const agent = request.agent(app);
-    const newMovie = await createMovieTest();
+    await createMovieTest();
     await createUser();
     await agent.post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
@@ -74,7 +76,7 @@ describe('movies unit tests', () => {
 
   it('should hit root movies endpoint with four query params and redirect', async () => {
     const agent = request.agent(app);
-    const newMovie = await createMovieTest();
+    await createMovieTest();
     await createUser();
     await agent.post('/api/auth/login').send({
       email: 'johndoe@gmail.com',
@@ -106,7 +108,12 @@ describe('movies unit tests', () => {
     expect(response.body.movies[0].title).toEqual(newMovie.title);
     expect(response.body.movies[0].title).toEqual(newMovie.title);
     expect(response.body.movies[0].coverImage).toEqual(newMovie.coverImage);
-    expect(response.body.movies[0].genres).toEqual(newMovie.genres);
+    expect(response.body.movies[0].genres[0]._id).toEqual(
+      newMovie.genres[0].toString()
+    );
+    expect(response.body.movies[0].genres[1]._id).toEqual(
+      newMovie.genres[1].toString()
+    );
     expect(response.body.currentPage).toEqual(1);
   });
 
@@ -126,6 +133,8 @@ describe('movies unit tests', () => {
       description: response.body.description,
       coverImage: response.body.coverImage,
       genres: response.body.genres,
+      likes: [],
+      dislikes: [],
     });
   });
 
@@ -151,6 +160,8 @@ describe('movies unit tests', () => {
       description: 'new description',
       coverImage: response.body.coverImage,
       genres: response.body.genres,
+      likes: [],
+      dislikes: [],
     });
   });
 
