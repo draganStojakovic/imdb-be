@@ -1,20 +1,19 @@
 import { Request, Response } from 'express';
 import { Movie } from 'database/schemas/Movie';
-import { sanitizeError, sanitizeMovie } from 'util/sanitizers';
+import { sanitizeError } from 'util/sanitizers';
 
 export const removeLikeAddDislike = async (req: Request, res: Response) => {
   const { movieId, userId } = req.query;
 
   try {
-    const updatedMovie = await Movie.findByIdAndUpdate(
+    await Movie.findByIdAndUpdate(
       { _id: movieId },
-      { $pull: { likes: userId }, $push: { dislikes: userId } },
-      {
-        new: true,
-      }
+      { $pull: { likes: userId }, $push: { dislikes: userId } }
     );
-    await updatedMovie.populate('genres');
-    return res.status(200).json(sanitizeMovie(updatedMovie));
+    return res.status(200).json({
+      like: 'removed',
+      dislike: 'added',
+    });
   } catch (e) {
     console.log(e);
     return res.status(500).json(sanitizeError('Server Error'));

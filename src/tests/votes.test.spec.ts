@@ -26,8 +26,10 @@ describe('votes unit tests', () => {
       )
       .send();
     expect(response.statusCode).toBe(200);
-    expect(response.body.dislikes).toEqual([]);
-    expect(response.body.likes[0]).toEqual(newUser._id.toString());
+    expect(response.body).toEqual({
+      like: 'added',
+      dislike: null,
+    });
   });
 
   it('should dislike a movie', async () => {
@@ -44,8 +46,10 @@ describe('votes unit tests', () => {
       )
       .send();
     expect(response.statusCode).toBe(200);
-    expect(response.body.likes).toEqual([]);
-    expect(response.body.dislikes[0]).toEqual(newUser._id.toString());
+    expect(response.body).toEqual({
+      like: null,
+      dislike: 'added',
+    });
   });
 
   it('should remove dislike and like a movie', async () => {
@@ -62,14 +66,18 @@ describe('votes unit tests', () => {
       )
       .send();
     expect(res1.statusCode).toBe(200);
-    expect(res1.body.likes).toEqual([]);
-    expect(res1.body.dislikes[0]).toEqual(newUser._id.toString());
+    expect(res1.body).toEqual({
+      like: null,
+      dislike: 'added',
+    });
     const res2 = await agent.put(
       `/api/votes?movieId=${newMovie._id}&userId=${newUser._id}&button=like`
     );
     expect(res2.statusCode).toBe(200);
-    expect(res2.body.likes[0]).toEqual(newUser._id.toString());
-    expect(res2.body.dislikes).toEqual([]);
+    expect(res2.body).toEqual({
+      like: 'added',
+      dislike: 'removed',
+    });
   });
 
   it('should remove like and dislike a movie', async () => {
@@ -86,14 +94,78 @@ describe('votes unit tests', () => {
       )
       .send();
     expect(res1.statusCode).toBe(200);
-    expect(res1.body.dislikes).toEqual([]);
-    expect(res1.body.likes[0]).toEqual(newUser._id.toString());
+    expect(res1.body).toEqual({
+      like: 'added',
+      dislike: null,
+    });
     const res2 = await agent.put(
       `/api/votes?movieId=${newMovie._id}&userId=${newUser._id}&button=dislike`
     );
     expect(res2.statusCode).toBe(200);
-    expect(res2.body.dislikes[0]).toEqual(newUser._id.toString());
-    expect(res2.body.likes).toEqual([]);
+    expect(res2.body).toEqual({
+      like: 'removed',
+      dislike: 'added',
+    });
+  });
+
+  it('should unlike a movie', async () => {
+    const agent = request.agent(app);
+    const newMovie = await createMovieTest();
+    const newUser = await createUser();
+    await agent.post('/api/auth/login').send({
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+    });
+    const res1 = await agent
+      .put(
+        `/api/votes?movieId=${newMovie._id}&userId=${newUser._id}&button=like`
+      )
+      .send();
+    expect(res1.statusCode).toBe(200);
+    expect(res1.body).toEqual({
+      like: 'added',
+      dislike: null,
+    });
+    const res2 = await agent
+      .put(
+        `/api/votes?movieId=${newMovie._id}&userId=${newUser._id}&button=like`
+      )
+      .send();
+    expect(res2.statusCode).toBe(200);
+    expect(res2.body).toEqual({
+      like: 'removed',
+      dislike: null,
+    });
+  });
+
+  it('should undislike a movie', async () => {
+    const agent = request.agent(app);
+    const newMovie = await createMovieTest();
+    const newUser = await createUser();
+    await agent.post('/api/auth/login').send({
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+    });
+    const res1 = await agent
+      .put(
+        `/api/votes?movieId=${newMovie._id}&userId=${newUser._id}&button=dislike`
+      )
+      .send();
+    expect(res1.statusCode).toBe(200);
+    expect(res1.body).toEqual({
+      like: null,
+      dislike: 'added',
+    });
+    const res2 = await agent
+      .put(
+        `/api/votes?movieId=${newMovie._id}&userId=${newUser._id}&button=dislike`
+      )
+      .send();
+    expect(res2.statusCode).toBe(200);
+    expect(res2.body).toEqual({
+      like: null,
+      dislike: 'removed',
+    });
   });
 
   it('should fail liking a movie', async () => {
