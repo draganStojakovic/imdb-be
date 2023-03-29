@@ -40,12 +40,14 @@ describe('movies unit tests', () => {
       genres: response.body.genres,
       likes: [],
       dislikes: [],
+      views: 0,
     });
     const movie = await Movie.findOne({ title: 'test movie' });
     expect(movie.title).toEqual('test movie');
     expect(movie.description).toEqual('description of a movie');
     expect(movie.coverImage).toEqual('https://blabla.com/images/blabla.jpg');
     expect(movie.genres).toEqual(movie.genres);
+    expect(movie.views).toEqual(0);
   });
 
   it('should hit root movies endpoint with two query params and redirect', async () => {
@@ -108,6 +110,7 @@ describe('movies unit tests', () => {
     expect(response.body.movies[0].title).toEqual(newMovie.title);
     expect(response.body.movies[0].title).toEqual(newMovie.title);
     expect(response.body.movies[0].coverImage).toEqual(newMovie.coverImage);
+    expect(response.body.movies[0].views).toEqual(0);
     expect(response.body.movies[0].genres[0]._id).toEqual(
       newMovie.genres[0].toString()
     );
@@ -135,6 +138,7 @@ describe('movies unit tests', () => {
       genres: response.body.genres,
       likes: [],
       dislikes: [],
+      views: 0,
     });
   });
 
@@ -162,6 +166,7 @@ describe('movies unit tests', () => {
       genres: response.body.genres,
       likes: [],
       dislikes: [],
+      views: 0,
     });
   });
 
