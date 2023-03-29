@@ -26,6 +26,7 @@ const movieSchema = new mongoose.Schema<IMovie>(
         ref: 'User',
       },
     ],
+    views: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

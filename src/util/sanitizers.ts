@@ -21,6 +21,7 @@ export const sanitizeMovies = (movies: IMovie[]) => {
       genres: movie.genres,
       likes: movie.likes,
       dislikes: movie.dislikes,
+      views: movie.views,
     };
   });
 };
@@ -34,6 +35,7 @@ export const sanitizeMovie = (movie: IMovie) => {
     genres: movie.genres,
     likes: movie.likes,
     dislikes: movie.dislikes,
+    views: movie.views,
   };
 };
 
