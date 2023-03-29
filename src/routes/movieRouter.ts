@@ -7,7 +7,6 @@ import { updateMovie } from 'controllers/movies/updateMovie';
 import { Router } from 'express';
 import { auth } from 'middleware/auth';
 import createMovieValidator from 'validators/CreateMovieValidator';
-import getSingleMovieValidator from 'validators/getSingleMovieValidator';
 import schemaValidator from 'validators/schemaValidator';
 import updateMovieValidator from 'validators/UpdateMovieValidator';
 import moviesPaginatedValidator from 'validators/getMovies/moviesPaginatedValidator';
@@ -19,13 +18,15 @@ import moviesPaginatedSearchGenresValidator from 'validators/getMovies/moviesPag
 import { getMoviesPaginatedSearchGenres } from 'controllers/movies/getMoviesPaginatedSearchGenres';
 import votesMovieValidator from 'validators/votesMovieValidator';
 import { voteMovie } from 'controllers/votes/voteMovie';
+import movieIdValidator from 'validators/movieIdValidator';
+import { addMovieView } from 'controllers/movies/addMovieView';
 
 export const movieRouter = Router();
 
 movieRouter.get(
   '/movies/:id',
   auth,
-  getSingleMovieValidator,
+  movieIdValidator,
   schemaValidator,
   getSingleMovie
 );
@@ -66,6 +67,14 @@ movieRouter.put(
   votesMovieValidator,
   schemaValidator,
   voteMovie
+);
+
+movieRouter.put(
+  '/views/:id',
+  auth,
+  movieIdValidator,
+  schemaValidator,
+  addMovieView
 );
 
 movieRouter.post(

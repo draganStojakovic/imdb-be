@@ -1,7 +1,7 @@
 import { param } from 'express-validator';
 import { Movie } from 'database/schemas/Movie';
 
-const getSingleMovieValidator = [
+const movieIdValidator = [
   param('id')
     .exists({ checkFalsy: true })
     .withMessage('ID param missing.')
@@ -14,4 +14,4 @@ const getSingleMovieValidator = [
     }),
 ];
 
-export default getSingleMovieValidator;
+export default movieIdValidator;
