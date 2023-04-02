@@ -7,4 +7,5 @@ export interface IMovie {
   likes: string[];
   dislikes: string[];
   views: number;
+  comments: string[];
 }

@@ -15,6 +15,12 @@ const movieSchema = new mongoose.Schema<IMovie>(
     likes: [{ type: String }],
     dislikes: [{ type: String }],
     views: { type: Number, required: true, default: 0 },
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
   },
   { timestamps: true }
 );
