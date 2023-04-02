@@ -10,7 +10,8 @@ export const getSingleMovie = async (req: Request, res: Response) => {
       .populate('genres')
       .populate({
         path: 'comments',
-        select: ['content', 'userId'],
+        select: 'content',
+        populate: { path: 'userId', select: ['fname', 'lname'] },
       });
     return res.status(200).json(sanitizeMovie(movie));
   } catch (e) {
