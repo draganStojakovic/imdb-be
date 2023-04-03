@@ -12,11 +12,6 @@ const getMovieCommentsValidator = [
       if (!movie) throw new Error('Movie not found');
       return true;
     }),
-  query('page')
-    .exists({ checkFalsy: true })
-    .withMessage('page query missing.')
-    .isString()
-    .withMessage('page query must be of type string.'),
   query('limit')
     .exists({ checkFalsy: true })
     .withMessage('limit query missing.')
