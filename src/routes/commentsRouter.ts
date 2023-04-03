@@ -9,7 +9,7 @@ import schemaValidator from 'validators/schemaValidator';
 export const commentsRouter = Router();
 
 commentsRouter.get(
-  '/comments/:movieId',
+  '/comments',
   auth,
   getMovieCommentsValidator,
   schemaValidator,

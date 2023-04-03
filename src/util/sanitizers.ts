@@ -37,7 +37,6 @@ export const sanitizeMovie = (movie: IMovie) => {
     likes: movie.likes,
     dislikes: movie.dislikes,
     views: movie.views,
-    comments: movie.comments,
   };
 };
 

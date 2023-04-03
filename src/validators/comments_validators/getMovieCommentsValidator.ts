@@ -1,9 +1,8 @@
-import { param } from 'express-validator';
 import { query } from 'express-validator';
 import { Movie } from 'database/schemas/Movie';
 
 const getMovieCommentsValidator = [
-  param('movieId')
+  query('movieId')
     .exists({ checkFalsy: true })
     .withMessage('movieId param missing.')
     .isString()

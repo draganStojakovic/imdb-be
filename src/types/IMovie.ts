@@ -1,4 +1,4 @@
-import { IComment } from "./IComment";
+import { IComment } from './IComment';
 
 export interface IMovie {
   _id: string;
@@ -9,5 +9,5 @@ export interface IMovie {
   likes: string[];
   dislikes: string[];
   views: number;
-  comments: IComment[];
+  comments: string[];
 }

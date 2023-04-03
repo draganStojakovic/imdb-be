@@ -3,8 +3,7 @@ import { Movie } from 'database/schemas/Movie';
 import { sanitizeError } from 'util/sanitizers';
 
 export const getComments = async (req: Request, res: Response) => {
-  const { movieId } = req.params;
-  const { page = 2, limit = 10 } = req.query;
+  const { movieId, page = 2, limit = 10 } = req.query;
 
   try {
     const movieComments = await Movie.findById(movieId)
