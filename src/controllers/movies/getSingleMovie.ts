@@ -18,7 +18,7 @@ export const getSingleMovie = async (req: Request, res: Response) => {
         },
         populate: {
           path: 'userId',
-          select: ['fname', 'lname'],
+          select: 'fname lname',
         },
       });
     return res.status(200).json(sanitizeMovie(movie));

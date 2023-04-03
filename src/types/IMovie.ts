@@ -1,3 +1,5 @@
+import { IComment } from "./IComment";
+
 export interface IMovie {
   _id: string;
   title: string;
@@ -7,5 +9,5 @@ export interface IMovie {
   likes: string[];
   dislikes: string[];
   views: number;
-  comments: string[];
+  comments: IComment[];
 }
