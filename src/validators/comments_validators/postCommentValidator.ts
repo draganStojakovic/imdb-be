@@ -1,5 +1,4 @@
 import { body } from 'express-validator';
-import { query } from 'express-validator';
 import { User } from 'database/schemas/User';
 import { Movie } from 'database/schemas/Movie';
 
@@ -24,7 +23,7 @@ const postCommentValidator = [
       if (userExists) return true;
       throw new Error('User not found');
     }),
-  query('movieId')
+  body('movieId')
     .exists({ checkFalsy: true })
     .withMessage('movieId is required')
     .isString()

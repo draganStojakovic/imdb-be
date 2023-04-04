@@ -4,8 +4,7 @@ import { Movie } from 'database/schemas/Movie';
 import { sanitizeComment, sanitizeError } from 'util/sanitizers';
 
 export const postComment = async (req: Request, res: Response) => {
-  const { content, userId } = req.body;
-  const { movieId } = req.query;
+  const { content, userId, movieId } = req.body;
 
   try {
     const newComment = await Comment.create({
