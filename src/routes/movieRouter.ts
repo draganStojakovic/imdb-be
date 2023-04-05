@@ -20,6 +20,7 @@ import votesMovieValidator from 'validators/votesMovieValidator';
 import { voteMovie } from 'controllers/votes/voteMovie';
 import movieIdValidator from 'validators/movieIdValidator';
 import { addMovieView } from 'controllers/movies/addMovieView';
+import { addToWatchList } from 'controllers/movies/addToWatchList';
 
 export const movieRouter = Router();
 
@@ -75,6 +76,14 @@ movieRouter.put(
   movieIdValidator,
   schemaValidator,
   addMovieView
+);
+
+movieRouter.put(
+  '/watch-list/:id',
+  auth,
+  movieIdValidator,
+  schemaValidator,
+  addToWatchList
 );
 
 movieRouter.post(

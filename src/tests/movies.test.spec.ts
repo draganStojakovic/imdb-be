@@ -193,9 +193,29 @@ describe('movies unit tests', () => {
       password: 'password123',
     });
     const response = await agent
-      .get('/api/movies/64036b4b759c01f1e686654a') // random id which is wrong
+      .get('/api/movies/64036b4b759c01f1e686654a') // wrong id on purpose
       .send();
     expect(response.statusCode).toBe(400);
     expect(response.body.success).toEqual(false);
+  });
+
+  it('should add a movie to watch list and then remove it', async () => {
+    const agent = request.agent(app);
+    await createUser();
+    const newMovie = await createMovieTest();
+    await agent.post('/api/auth/login').send({
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+    });
+    const { _id } = newMovie;
+    const movieId = _id.toString();
+    const addMovie = await agent.put(`/api/watch-list/${movieId}`).send();
+    expect(addMovie.statusCode).toBe(200);
+    expect(addMovie.body).toEqual({ message: 'movie added to watch list' });
+    const removeMovie = await agent.put(`/api/watch-list/${movieId}`).send();
+    expect(removeMovie.statusCode).toBe(200);
+    expect(removeMovie.body).toEqual({
+      message: 'movie removed from watch list',
+    });
   });
 });

@@ -9,6 +9,7 @@ export const sanitizeUser = (user: iUser) => {
     fname: user.fname,
     lname: user.lname,
     email: user.email,
+    watchList: user.watchList,
   };
 };
 

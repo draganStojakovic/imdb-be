@@ -4,4 +4,5 @@ export interface iUser {
   lname: string;
   email: string;
   password: string;
+  watchList: string[];
 }

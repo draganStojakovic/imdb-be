@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { iUser } from 'types/iUser';
 
 const userSchema = new mongoose.Schema<iUser>(
@@ -7,6 +7,12 @@ const userSchema = new mongoose.Schema<iUser>(
     lname: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    watchList: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Movie',
+      },
+    ],
   },
   { timestamps: true }
 );
