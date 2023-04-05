@@ -1,6 +1,7 @@
 import { IMovie } from 'types/IMovie';
 import { iUser } from 'types/iUser';
 import { IGenre } from 'types/IGenre';
+import { IComment } from 'types/IComment';
 
 export const sanitizeUser = (user: iUser) => {
   return {
@@ -71,5 +72,13 @@ export const sanitizeGenre = (genre: IGenre) => {
   return {
     id: genre._id,
     name: genre.name,
+  };
+};
+
+export const sanitizeComment = (comment: IComment) => {
+  return {
+    id: comment._id,
+    content: comment.content,
+    userId: comment.userId,
   };
 };
