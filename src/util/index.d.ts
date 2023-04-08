@@ -1,8 +1,8 @@
 import 'express-session';
-import { iUser } from 'types/iUser';
+import { IUser } from 'types/IUser';
 
 declare module 'express-session' {
   interface SessionData {
-    user: iUser;
+    user: IUser;
   }
 }

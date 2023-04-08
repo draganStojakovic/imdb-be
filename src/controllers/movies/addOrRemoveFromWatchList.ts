@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { sanitizeError } from 'util/sanitizers';
+import { sanitizeError, sanitizeUser } from 'util/sanitizers';
 import { User } from 'database/schemas/User';
 
-export const addToWatchList = async (req: Request, res: Response) => {
+export const addOrRemoveFromWatchList = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const userId = req.session.user._id;
@@ -19,14 +19,14 @@ export const addToWatchList = async (req: Request, res: Response) => {
       );
       const index = req.session.user.watchList.indexOf(id);
       if (index !== -1) req.session.user.watchList.splice(index, 1);
-      return res.status(200).json({ message: 'movie removed from watch list' });
+      return res.status(200).json(sanitizeUser(req.session.user));
     } else if (isWatched === 0) {
       await User.findByIdAndUpdate(
         { _id: userId },
         { $push: { watchList: id } }
       );
       req.session.user.watchList.push(id);
-      return res.status(200).json({ message: 'movie added to watch list' });
+      return res.status(200).json(sanitizeUser(req.session.user));
     }
   } catch (e) {
     console.log(e);

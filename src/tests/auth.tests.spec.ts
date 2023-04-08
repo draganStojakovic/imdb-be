@@ -27,7 +27,7 @@ describe('auth unit tests', () => {
       fname: response.body.fname,
       lname: response.body.lname,
       email: response.body.email,
-      watchList: response.body.watchList,
+      watchedMovies: response.body.watchedMovies,
     });
     const user = await User.findOne({ email: 'johndoe@gmail.com' });
     expect(user.fname).toEqual('John');
@@ -47,7 +47,7 @@ describe('auth unit tests', () => {
       fname: response.body.fname,
       lname: response.body.lname,
       email: response.body.email,
-      watchList: response.body.watchList,
+      watchedMovies: response.body.watchedMovies,
     });
   });
 
@@ -64,7 +64,7 @@ describe('auth unit tests', () => {
       fname: response.body.fname,
       lname: response.body.lname,
       email: response.body.email,
-      watchList: response.body.watchList,
+      watchedMovies: response.body.watchedMovies,
     });
     const res = await agent.post('/api/auth/logout').send();
     expect(res.statusCode).toBe(200);
@@ -83,7 +83,7 @@ describe('auth unit tests', () => {
       fname: response.body.fname,
       lname: response.body.lname,
       email: response.body.email,
-      watchList: response.body.watchList,
+      watchedMovies: response.body.watchedMovies,
     });
     const me = await agent.post('/api/auth/me');
     expect(me.statusCode).toBe(200);
@@ -92,7 +92,7 @@ describe('auth unit tests', () => {
       fname: me.body.fname,
       lname: me.body.lname,
       email: me.body.email,
-      watchList: me.body.watchList,
+      watchedMovies: me.body.watchedMovies,
     });
   });
 
