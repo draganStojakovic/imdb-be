@@ -7,6 +7,7 @@ import {
   createGenresTest,
 } from 'helpers/TestHelpers';
 import { Movie } from 'database/schemas/Movie';
+import session from 'express-session';
 
 const app = createApp();
 
@@ -199,7 +200,25 @@ describe('movies unit tests', () => {
     expect(response.body.success).toEqual(false);
   });
 
-  it('should add a movie to watch list and then remove it', async () => {
+  it('should mark movie as watched and then remove it', async () => {
+    const agent = request.agent(app);
+    await createUser();
+    const newMovie = await createMovieTest();
+    await agent.post('/api/auth/login').send({
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+    });
+    const { _id } = newMovie;
+    const movieId = _id.toString();
+    const addMovie = await agent.put(`/api/watched-movie/${movieId}`).send();
+    expect(addMovie.statusCode).toBe(200);
+    expect(addMovie.body.watchedMovies).toEqual([movieId]);
+    const removeMovie = await agent.put(`/api/watched-movie/${movieId}`).send();
+    expect(removeMovie.statusCode).toBe(200);
+    expect(removeMovie.body.watchedMovies).toEqual([]);
+  });
+
+  it('should add a movie to watch list and the remove it', async () => {
     const agent = request.agent(app);
     await createUser();
     const newMovie = await createMovieTest();
@@ -211,11 +230,28 @@ describe('movies unit tests', () => {
     const movieId = _id.toString();
     const addMovie = await agent.put(`/api/watch-list/${movieId}`).send();
     expect(addMovie.statusCode).toBe(200);
-    expect(addMovie.body).toEqual({ message: 'movie added to watch list' });
+    expect(addMovie.body.watchList).toEqual([movieId]);
     const removeMovie = await agent.put(`/api/watch-list/${movieId}`).send();
     expect(removeMovie.statusCode).toBe(200);
-    expect(removeMovie.body).toEqual({
-      message: 'movie removed from watch list',
+    expect(removeMovie.body.watchList).toEqual([]);
+  });
+
+  it("should return all movies from auth users's watch list", async () => {
+    const agent = request.agent(app);
+    await createUser();
+    const newMovie = await createMovieTest();
+    await agent.post('/api/auth/login').send({
+      email: 'johndoe@gmail.com',
+      password: 'password123',
     });
+    const { _id } = newMovie;
+    const movieId = _id.toString();
+    const addMovie = await agent.put(`/api/watch-list/${movieId}`).send();
+    expect(addMovie.statusCode).toBe(200);
+    expect(addMovie.body.watchList).toEqual([movieId]);
+    const response = await agent.get('/api/watch-list').send();
+    expect(response.statusCode).toBe(200);
+    expect(response.body[0].title).toEqual(newMovie.title);
+    expect(response.body[0].coverImage).toEqual(newMovie.coverImage);
   });
 });
