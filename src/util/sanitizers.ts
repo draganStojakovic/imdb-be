@@ -1,14 +1,16 @@
 import { IMovie } from 'types/IMovie';
-import { iUser } from 'types/iUser';
 import { IGenre } from 'types/IGenre';
 import { IComment } from 'types/IComment';
+import { IUser } from 'types/IUser';
 
-export const sanitizeUser = (user: iUser) => {
+export const sanitizeUser = (user: IUser) => {
   return {
     id: user._id,
     fname: user.fname,
     lname: user.lname,
     email: user.email,
+    watchedMovies: user.watchedMovies,
+    watchList: user.watchList,
   };
 };
 
