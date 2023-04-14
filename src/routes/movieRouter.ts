@@ -23,6 +23,7 @@ import { addMovieView } from 'controllers/movies/addMovieView';
 import { watchedMovie } from 'controllers/movies/watchedMovie';
 import { addOrRemoveFromWatchList } from 'controllers/movies/addOrRemoveFromWatchList';
 import { getAllMoviesFromWatchList } from 'controllers/movies/getAllMoviesFromWatchList';
+import { getPopularMovies } from 'controllers/movies/getPopularMovies';
 
 export const movieRouter = Router();
 
@@ -115,3 +116,5 @@ movieRouter.put(
 );
 
 movieRouter.delete('/movies/:id', auth, deleteMovie);
+
+movieRouter.get('/popular-movies', auth, getPopularMovies);
