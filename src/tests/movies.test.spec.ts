@@ -254,4 +254,23 @@ describe('movies unit tests', () => {
     expect(response.body[0].title).toEqual(newMovie.title);
     expect(response.body[0].coverImage).toEqual(newMovie.coverImage);
   });
+
+  it('should return 10 most popular movies (1 movie in this test)', async () => {
+    const agent = request.agent(app);
+    await createUser();
+    const newMovie = await createMovieTest();
+    await agent.post('/api/auth/login').send({
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+    });
+    const response = await agent.get('/api/popular-movies').send();
+    const { _id, coverImage } = newMovie;
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual([
+      {
+        id: _id.toString(),
+        coverImage: coverImage,
+      },
+    ]);
+  });
 });
