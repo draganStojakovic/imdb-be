@@ -7,7 +7,7 @@ export const getPopularMovies = async (req: Request, res: Response) => {
     const response = await Movie.find({})
       .limit(10)
       .sort({ views: -1 })
-      .select('_id title');
+      .select('_id coverImage');
     return res.status(200).json(sanitizePopularMovies(response));
   } catch (e) {
     console.log(e);

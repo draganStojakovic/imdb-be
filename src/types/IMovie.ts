@@ -12,5 +12,5 @@ export interface IMovie {
 
 export interface IPopularMovie {
   _id: string;
-  title: string;
+  coverImage: string;
 }

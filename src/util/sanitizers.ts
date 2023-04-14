@@ -89,7 +89,7 @@ export const sanitizePopularMovies = (movies: IPopularMovie[]) => {
   return movies.map((movie) => {
     return {
       id: movie._id,
-      title: movie.title,
+      coverImage: movie.coverImage,
     };
   });
 };
