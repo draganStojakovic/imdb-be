@@ -1,4 +1,4 @@
-import { IMovie, IPopularMovie } from 'types/IMovie';
+import { IMovie, IMovieStrippedDown } from 'types/IMovie';
 import { IGenre } from 'types/IGenre';
 import { IComment } from 'types/IComment';
 import { IUser } from 'types/IUser';
@@ -85,7 +85,7 @@ export const sanitizeComment = (comment: IComment) => {
   };
 };
 
-export const sanitizePopularMovies = (movies: IPopularMovie[]) => {
+export const sanitizeStrippedDownMovies = (movies: IMovieStrippedDown[]) => {
   return movies.map((movie) => {
     return {
       id: movie._id,

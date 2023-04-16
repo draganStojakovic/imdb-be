@@ -7,7 +7,7 @@ import {
   createGenresTest,
 } from 'helpers/TestHelpers';
 import { Movie } from 'database/schemas/Movie';
-import session from 'express-session';
+import { genresQueryFormatter } from 'util/queryFormatters';
 
 const app = createApp();
 
@@ -265,6 +265,28 @@ describe('movies unit tests', () => {
     });
     const response = await agent.get('/api/popular-movies').send();
     const { _id, coverImage } = newMovie;
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual([
+      {
+        id: _id.toString(),
+        coverImage: coverImage,
+      },
+    ]);
+  });
+
+  it('should return up to 10 related movies (1 movie in this test)', async () => {
+    const agent = request.agent(app);
+    await createUser();
+    const newMovie = await createMovieTest();
+    await agent.post('/api/auth/login').send({
+      email: 'johndoe@gmail.com',
+      password: 'password123',
+    });
+    const { _id, coverImage, genres } = newMovie;
+    const formattedGenres = genres.join(',');
+    const response = await agent
+      .get(`/api/related-movies?genres=${formattedGenres}`)
+      .send();
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual([
       {

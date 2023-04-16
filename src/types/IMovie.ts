@@ -10,7 +10,4 @@ export interface IMovie {
   comments: string[];
 }
 
-export interface IPopularMovie {
-  _id: string;
-  coverImage: string;
-}
+export type IMovieStrippedDown = Pick<IMovie, '_id' | 'coverImage'>;

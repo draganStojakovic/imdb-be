@@ -24,6 +24,8 @@ import { watchedMovie } from 'controllers/movies/watchedMovie';
 import { addOrRemoveFromWatchList } from 'controllers/movies/addOrRemoveFromWatchList';
 import { getAllMoviesFromWatchList } from 'controllers/movies/getAllMoviesFromWatchList';
 import { getPopularMovies } from 'controllers/movies/getPopularMovies';
+import { getRelatedMovies } from 'controllers/movies/getRelatedMovies';
+import getRelatedMoviesValidator from 'validators/getMovies/getRelatedMoviesValidator';
 
 export const movieRouter = Router();
 
@@ -118,3 +120,11 @@ movieRouter.put(
 movieRouter.delete('/movies/:id', auth, deleteMovie);
 
 movieRouter.get('/popular-movies', auth, getPopularMovies);
+
+movieRouter.get(
+  '/related-movies',
+  auth,
+  getRelatedMoviesValidator,
+  schemaValidator,
+  getRelatedMovies
+);

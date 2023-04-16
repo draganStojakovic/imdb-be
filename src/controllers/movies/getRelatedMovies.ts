@@ -1,12 +1,16 @@
 import { Request, Response } from 'express';
 import { Movie } from 'database/schemas/Movie';
 import { sanitizeError, sanitizeStrippedDownMovies } from 'util/sanitizers';
+import { genresQueryFormatter } from 'util/queryFormatters';
 
-export const getPopularMovies = async (req: Request, res: Response) => {
+export const getRelatedMovies = async (req: Request, res: Response) => {
+  const genres = req.query.genres;
+
+  const formattedGenres = genresQueryFormatter(genres as string);
+
   try {
-    const response = await Movie.find({})
+    const response = await Movie.find({ genres: formattedGenres })
       .limit(10)
-      .sort({ views: -1 })
       .select('_id coverImage');
 
     return res.status(200).json(sanitizeStrippedDownMovies(response));
