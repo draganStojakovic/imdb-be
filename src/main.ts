@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { connectDB } from 'database/dbConn';
 import { HOST, PORT } from 'constants/envVars';
 import createApp from 'app/app';
