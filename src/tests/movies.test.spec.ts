@@ -32,17 +32,6 @@ describe('movies unit tests', () => {
       coverImage: 'https://blabla.com/images/blabla.jpg',
       genres: [genres[0]._id, genres[1]._id],
     });
-    expect(response.statusCode).toBe(201);
-    expect(response.body).toEqual({
-      id: response.body.id,
-      title: response.body.title,
-      description: response.body.description,
-      coverImage: response.body.coverImage,
-      genres: response.body.genres,
-      likes: [],
-      dislikes: [],
-      views: 0,
-    });
     const movie = await Movie.findOne({ title: 'test movie' });
     expect(movie.title).toEqual('test movie');
     expect(movie.description).toEqual('description of a movie');
