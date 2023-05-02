@@ -1,4 +1,4 @@
-import { IMovie, IMovieStrippedDown } from 'types/IMovie';
+import { IMovie, IMovieStrippedDown, IPoster } from 'types/IMovie';
 import { IGenre } from 'types/IGenre';
 import { IComment } from 'types/IComment';
 import { IUser } from 'types/IUser';
@@ -92,4 +92,11 @@ export const sanitizeStrippedDownMovies = (movies: IMovieStrippedDown[]) => {
       coverImage: movie.coverImage,
     };
   });
+};
+
+export const sanitizeUploadedPosterLinks = (poster: IPoster) => {
+  return {
+    thumbnail: poster.thumbnail,
+    fullSize: poster.fullSize,
+  };
 };

@@ -6,3 +6,5 @@ export const COOKIE_SECRET: string = process.env.COOKIE_SECRET;
 export const EMAIL: string = process.env.EMAIL;
 export const EMAIL_USER: string = process.env.EMAIL_USER;
 export const EMAIL_PASS: string = process.env.EMAIL_PASS;
+export const STORAGE: string = process.env.STORAGE;
+export const PROD: boolean = !!process.env.PROD;

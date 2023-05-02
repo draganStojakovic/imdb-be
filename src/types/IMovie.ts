@@ -16,11 +16,21 @@ export interface IMovieSanitized {
   id: string;
   title: string;
   description: string;
-  coverImage: string;
+  coverImage: IPoster;
   genres: IGenre[];
   likes: [];
   dislikes: [];
   views: 0;
 }
+
+export interface IPoster {
+  thumbnail: string;
+  fullSize: string;
+}
+
+export type PosterAction = {
+  action: 'delete';
+  filePath: string;
+};
 
 export type IMovieStrippedDown = Pick<IMovie, '_id' | 'coverImage'>;

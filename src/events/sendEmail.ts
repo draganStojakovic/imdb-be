@@ -1,5 +1,6 @@
 import { IMovieSanitized } from 'types/IMovie';
 import { transporter } from 'email/nodemailer';
+import { EMAIL } from 'constants/envVars';
 
 function splitStringIntoLines(str: string, charsPerLine: number) {
   const chunks = [];
@@ -24,7 +25,7 @@ export function sendEmail(data: IMovieSanitized) {
   `;
 
   const mailOptions = {
-    from: 'sandbox.smtp.mailtrap.io',
+    from: EMAIL,
     to: 'johndoe@gmail',
     subject: `Movie ${data.title} created!`,
     text: emailBody,
