@@ -101,3 +101,10 @@ export const sanitizeUploadedPosterLinks = (poster: IPosterDB) => {
     fullSize: poster.fullSize,
   };
 };
+
+export const sanitizeDeletedPosterLinks = (poster: IPosterDB) => {
+  return {
+    id: poster._id,
+    message: `Successfully deleted posters by the id of ${poster._id}`,
+  };
+};

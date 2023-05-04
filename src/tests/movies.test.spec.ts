@@ -7,7 +7,6 @@ import {
   createGenresTest,
 } from 'helpers/TestHelpers';
 import { Movie } from 'database/schemas/Movie';
-import { genresQueryFormatter } from 'util/queryFormatters';
 
 const app = createApp();
 
