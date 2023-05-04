@@ -2,11 +2,13 @@ import { Request, Response } from 'express';
 import { sanitizeError, sanitizeUploadedPosterLinks } from 'util/sanitizers';
 import { Poster } from 'database/schemas/Poster';
 
-export const uploadMoviePoster = async (req: Request, res: Response) => {
+export const insertLinksOfUploadedImages = async (
+  req: Request,
+  res: Response
+) => {
   try {
-    const linksToImages = req.session.poster;
-    const images = await Poster.create(linksToImages);
-    req.session.poster = null;
+    const images = await Poster.create(req.session.poster);
+
     return res.status(201).json(sanitizeUploadedPosterLinks(images));
   } catch (e) {
     console.log(e);

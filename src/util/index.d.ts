@@ -5,6 +5,6 @@ import { IPoster } from 'types/IMovie';
 declare module 'express-session' {
   interface SessionData {
     user: IUser;
-    poster: IPoster | null;
+    poster: IPoster;
   }
 }

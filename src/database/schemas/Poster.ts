@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import { IPoster } from 'types/IMovie';
+import { IPosterDB } from 'types/IMovie';
 
-const posterSchema = new mongoose.Schema<IPoster>({
+const posterSchema = new mongoose.Schema<IPosterDB>({
   thumbnail: {
     type: String,
     required: true,

@@ -28,6 +28,10 @@ export interface IPoster {
   fullSize: string;
 }
 
+export interface IPosterDB extends IPoster {
+  _id: string;
+}
+
 export type PosterAction = {
   action: 'delete';
   filePath: string;

@@ -18,13 +18,13 @@ export default function resizeImage(
   const thumbnailImagePath = path.join(
     imagesRootFolder,
     'thumbnails',
-    req.file.filename
+    '200-' + req.file.filename
   );
 
   const fullsizeImagePath = path.join(
     imagesRootFolder,
     'full-size',
-    req.file.filename
+    '400-' + req.file.filename
   );
 
   const thumbnailPromise = new Promise<void>((resolve, reject) => {
