@@ -7,6 +7,7 @@ import { insertLinksOfUploadedImages } from 'controllers/uploads/insertLinksOfUp
 import posterIdValidator from 'validators/posterIdValidator';
 import removeImagesFromDisk from 'middleware/removeImagesFromDisk';
 import { removeLinksOfUploadedImages } from 'controllers/uploads/removeLinksOfUploadedImages';
+import schemaValidator from 'validators/schemaValidator';
 
 export const uploadRouter = Router();
 
@@ -23,6 +24,7 @@ uploadRouter.delete(
   '/upload',
   auth,
   posterIdValidator,
+  schemaValidator,
   removeImagesFromDisk,
   removeLinksOfUploadedImages
 );

@@ -13,7 +13,7 @@ export const createMovie = async (req: Request, res: Response) => {
       coverImage,
       genres,
     });
-    await newMovie.populate('genres');
+    await newMovie.populate('genres coverImage');
     emitter.emit('sendEmailEvent', sanitizeMovie(newMovie));
     return res.status(201).json(sanitizeMovie(newMovie));
   } catch (e) {

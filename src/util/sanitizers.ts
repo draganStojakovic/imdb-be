@@ -20,7 +20,7 @@ export const sanitizeMovies = (movies: IMovie[]) => {
       id: movie._id,
       title: movie.title,
       description: movie.description,
-      coverImage: movie.coverImage,
+      coverImage: movie.coverImage.thumbnail,
       genres: movie.genres,
       likes: movie.likes,
       dislikes: movie.dislikes,
@@ -34,7 +34,7 @@ export const sanitizeMovie = (movie: IMovie) => {
     id: movie._id,
     title: movie.title,
     description: movie.description,
-    coverImage: movie.coverImage,
+    coverImage: movie.coverImage.fullSize,
     genres: movie.genres,
     likes: movie.likes,
     dislikes: movie.dislikes,
@@ -105,6 +105,6 @@ export const sanitizeUploadedPosterLinks = (poster: IPosterDB) => {
 export const sanitizeDeletedPosterLinks = (poster: IPosterDB) => {
   return {
     id: poster._id,
-    message: `Successfully deleted posters by the id of ${poster._id}`,
+    message: `Successfully deleted poster by the id of ${poster._id}`,
   };
 };

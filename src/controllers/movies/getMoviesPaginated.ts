@@ -9,7 +9,11 @@ export const getMoviesPaginated = async (req: Request, res: Response) => {
     const movies = await Movie.find()
       .limit(Number(limit) * 1)
       .skip((Number(page) - 1) * Number(limit))
-      .populate('genres');
+      .populate('genres')
+      .populate({
+        path: 'coverImage',
+        select: 'thumbnail',
+      });
 
     const count = await Movie.count();
 
