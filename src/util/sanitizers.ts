@@ -1,7 +1,17 @@
-import { IMovie, IMovieStrippedDown, IPosterDB } from 'types/IMovie';
+import {
+  IMovie,
+  IMovieStrippedDown,
+  IPosterDB,
+  IWatchList,
+} from 'types/IMovie';
 import { IGenre } from 'types/IGenre';
 import { IComment } from 'types/IComment';
 import { IUser } from 'types/IUser';
+import { HOST, PORT } from 'constants/envVars';
+
+function constructImageLink(image: string): string {
+  return `http://${HOST}:${PORT}/` + image;
+}
 
 export const sanitizeUser = (user: IUser) => {
   return {
@@ -20,7 +30,7 @@ export const sanitizeMovies = (movies: IMovie[]) => {
       id: movie._id,
       title: movie.title,
       description: movie.description,
-      coverImage: movie.coverImage.thumbnail,
+      coverImage: constructImageLink(movie.coverImage.thumbnail),
       genres: movie.genres,
       likes: movie.likes,
       dislikes: movie.dislikes,
@@ -34,7 +44,7 @@ export const sanitizeMovie = (movie: IMovie) => {
     id: movie._id,
     title: movie.title,
     description: movie.description,
-    coverImage: movie.coverImage.fullSize,
+    coverImage: constructImageLink(movie.coverImage.fullSize),
     genres: movie.genres,
     likes: movie.likes,
     dislikes: movie.dislikes,
@@ -85,11 +95,16 @@ export const sanitizeComment = (comment: IComment) => {
   };
 };
 
-export const sanitizeStrippedDownMovies = (movies: IMovieStrippedDown[]) => {
+export const sanitizeStrippedDownMovies = (
+  movies: IMovieStrippedDown[],
+  thumbnail: boolean
+) => {
   return movies.map((movie) => {
     return {
       id: movie._id,
-      coverImage: movie.coverImage,
+      coverImage: thumbnail
+        ? constructImageLink(movie.coverImage.thumbnail)
+        : constructImageLink(movie.coverImage.fullSize),
     };
   });
 };
@@ -107,4 +122,14 @@ export const sanitizeDeletedPosterLinks = (poster: IPosterDB) => {
     id: poster._id,
     message: `Successfully deleted poster by the id of ${poster._id}`,
   };
+};
+
+export const sanitizeWatchList = (movies: IWatchList) => {
+  return movies.watchList.map((movie) => {
+    return {
+      id: movie._id,
+      title: movie.title,
+      coverImage: constructImageLink(movie.coverImage.thumbnail),
+    };
+  });
 };

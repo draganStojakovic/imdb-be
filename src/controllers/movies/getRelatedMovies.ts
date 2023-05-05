@@ -11,9 +11,13 @@ export const getRelatedMovies = async (req: Request, res: Response) => {
   try {
     const response = await Movie.find({ genres: formattedGenres })
       .limit(10)
-      .select('_id coverImage');
+      .select('_id coverImage')
+      .populate({
+        path: 'coverImage',
+        select: 'fullSize -_id',
+      });
 
-    return res.status(200).json(sanitizeStrippedDownMovies(response));
+    return res.status(200).json(sanitizeStrippedDownMovies(response, true));
   } catch (e) {
     console.log(e);
     return res.status(500).json(sanitizeError('Server Error'));

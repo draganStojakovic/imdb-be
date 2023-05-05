@@ -18,18 +18,18 @@ export default function resizeImage(
   const thumbnailImagePath = path.join(
     imagesRootFolder,
     'thumbnails',
-    '200-' + req.file.filename
+    '400-' + req.file.filename
   );
 
   const fullsizeImagePath = path.join(
     imagesRootFolder,
     'full-size',
-    '400-' + req.file.filename
+    '800-' + req.file.filename
   );
 
   const thumbnailPromise = new Promise<void>((resolve, reject) => {
     imageResizer(imagePath)
-      .resize(200)
+      .resize(400)
       .write(thumbnailImagePath, (err) => {
         if (err) {
           reject(err);
@@ -42,7 +42,7 @@ export default function resizeImage(
 
   const fullsizePromise = new Promise<void>((resolve, reject) => {
     imageResizer(imagePath)
-      .resize(400)
+      .resize(800)
       .write(fullsizeImagePath, (err) => {
         if (err) {
           reject(err);
@@ -52,7 +52,7 @@ export default function resizeImage(
         }
       });
   });
-  
+
   Promise.all([thumbnailPromise, fullsizePromise])
     .then(() => {
       const file: PosterAction = {
@@ -61,8 +61,12 @@ export default function resizeImage(
       };
       emitter.emit('fileAction', file);
       req.session.poster = {
-        thumbnail: thumbnailImagePath,
-        fullSize: fullsizeImagePath,
+        thumbnail: path.join(
+          'images',
+          'thumbnails',
+          '400-' + req.file.filename
+        ),
+        fullSize: path.join('images', 'full-size', '800-' + req.file.filename),
       };
       next();
     })

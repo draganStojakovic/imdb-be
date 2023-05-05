@@ -37,4 +37,16 @@ export type PosterAction = {
   filePath: string;
 };
 
+export interface IWatchList {
+  watchList: IWatch[];
+}
+
+type IWatch = {
+  _id: string;
+  title: string;
+  coverImage: {
+    thumbnail: string;
+  };
+};
+
 export type IMovieStrippedDown = Pick<IMovie, '_id' | 'coverImage'>;

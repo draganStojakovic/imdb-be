@@ -27,6 +27,8 @@ const createApp = () => {
 
   app.set('trust proxy', 1);
 
+  app.use(express.static('public'));
+
   app.use('/api', router);
 
   return app;
