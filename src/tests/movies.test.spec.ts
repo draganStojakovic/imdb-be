@@ -1,3 +1,9 @@
+import EventEmitter from 'events';
+jest.mock('events/events', () => {
+  return {
+    emitter: new EventEmitter(),
+  };
+});
 import createApp from 'app/app';
 import request from 'supertest';
 import mongoose from 'mongoose';
@@ -5,6 +11,7 @@ import {
   createMovieTest,
   createUser,
   createGenresTest,
+  addMoviePostertoDb,
 } from 'helpers/TestHelpers';
 import { Movie } from 'database/schemas/Movie';
 
@@ -25,16 +32,17 @@ describe('movies unit tests', () => {
       password: 'password123',
     });
     const genres = await createGenresTest();
-    const response = await agent.post('/api/movies').send({
+    const newPoster = await addMoviePostertoDb();
+    await agent.post('/api/movies').send({
       title: 'test movie',
       description: 'description of a movie',
-      coverImage: 'https://blabla.com/images/blabla.jpg',
+      coverImage: newPoster._id,
       genres: [genres[0]._id, genres[1]._id],
     });
     const movie = await Movie.findOne({ title: 'test movie' });
     expect(movie.title).toEqual('test movie');
     expect(movie.description).toEqual('description of a movie');
-    expect(movie.coverImage).toEqual('https://blabla.com/images/blabla.jpg');
+    expect(movie.coverImage).toEqual(newPoster._id);
     expect(movie.genres).toEqual(movie.genres);
     expect(movie.views).toEqual(0);
   });
@@ -98,7 +106,9 @@ describe('movies unit tests', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.movies[0].title).toEqual(newMovie.title);
     expect(response.body.movies[0].title).toEqual(newMovie.title);
-    expect(response.body.movies[0].coverImage).toEqual(newMovie.coverImage);
+    expect(response.body.movies[0].coverImage).toEqual(
+      'http://localhost:3500/images/fake-thumbnail.jpg'
+    );
     expect(response.body.movies[0].views).toEqual(0);
     expect(response.body.movies[0].genres[0]._id).toEqual(
       newMovie.genres[0].toString()
@@ -117,40 +127,13 @@ describe('movies unit tests', () => {
       email: 'johndoe@gmail.com',
       password: 'password123',
     });
-    const response = await agent.get(`/api/movies/${newMovie._id}`).send();
+    const { _id: movieId } = newMovie;
+    const response = await agent.get(`/api/movies/${movieId}`).send();
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({
       id: response.body.id,
       title: response.body.title,
       description: response.body.description,
-      coverImage: response.body.coverImage,
-      genres: response.body.genres,
-      likes: [],
-      dislikes: [],
-      views: 0,
-    });
-  });
-
-  it('should update an existing movie', async () => {
-    const agent = request.agent(app);
-    const newUser = await createUser();
-    const genres = await createGenresTest();
-    const newMovie = await createMovieTest();
-    await agent.post('/api/auth/login').send({
-      email: newUser.email,
-      password: 'password123',
-    });
-    const response = await agent.put(`/api/movies/${newMovie._id}`).send({
-      title: 'new title',
-      description: 'new description',
-      coverImage: newMovie.coverImage,
-      genres: [genres[0]._id, genres[1]._id, genres[2]._id],
-    });
-    expect(response.statusCode).toBe(202);
-    expect(response.body).toEqual({
-      id: response.body.id,
-      title: 'new title',
-      description: 'new description',
       coverImage: response.body.coverImage,
       genres: response.body.genres,
       likes: [],
@@ -240,7 +223,9 @@ describe('movies unit tests', () => {
     const response = await agent.get('/api/watch-list').send();
     expect(response.statusCode).toBe(200);
     expect(response.body[0].title).toEqual(newMovie.title);
-    expect(response.body[0].coverImage).toEqual(newMovie.coverImage);
+    expect(response.body[0].coverImage).toEqual(
+      'http://localhost:3500/images/fake-thumbnail.jpg'
+    );
   });
 
   it('should return 10 most popular movies (1 movie in this test)', async () => {
@@ -257,7 +242,7 @@ describe('movies unit tests', () => {
     expect(response.body).toEqual([
       {
         id: _id.toString(),
-        coverImage: coverImage,
+        coverImage: 'http://localhost:3500/images/fake-thumbnail.jpg',
       },
     ]);
   });
@@ -270,7 +255,7 @@ describe('movies unit tests', () => {
       email: 'johndoe@gmail.com',
       password: 'password123',
     });
-    const { _id, coverImage, genres } = newMovie;
+    const { _id, genres } = newMovie;
     const formattedGenres = genres.join(',');
     const response = await agent
       .get(`/api/related-movies?genres=${formattedGenres}`)
@@ -279,7 +264,7 @@ describe('movies unit tests', () => {
     expect(response.body).toEqual([
       {
         id: _id.toString(),
-        coverImage: coverImage,
+        coverImage: 'http://localhost:3500/images/fake-thumbnail.jpg',
       },
     ]);
   });

@@ -10,8 +10,8 @@ export const getPopularMovies = async (req: Request, res: Response) => {
       .select('_id coverImage')
       .populate({
         path: 'coverImage',
-        select: 'thumbnail -_id'
-      })
+        select: 'thumbnail -_id',
+      });
 
     return res.status(200).json(sanitizeStrippedDownMovies(response, true));
   } catch (e) {

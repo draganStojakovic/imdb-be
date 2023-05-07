@@ -14,7 +14,7 @@ export const getRelatedMovies = async (req: Request, res: Response) => {
       .select('_id coverImage')
       .populate({
         path: 'coverImage',
-        select: 'fullSize -_id',
+        select: 'thumbnail -_id',
       });
 
     return res.status(200).json(sanitizeStrippedDownMovies(response, true));
