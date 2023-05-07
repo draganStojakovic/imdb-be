@@ -10,7 +10,7 @@ import { IUser } from 'types/IUser';
 import { HOST, PORT } from 'constants/envVars';
 
 function constructImageLink(image: string): string {
-  return `http://${HOST}:${PORT}` + image;
+  return `http://${HOST}:${PORT}/` + image;
 }
 
 export const sanitizeUser = (user: IUser) => {

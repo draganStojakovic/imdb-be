@@ -107,7 +107,7 @@ describe('movies unit tests', () => {
     expect(response.body.movies[0].title).toEqual(newMovie.title);
     expect(response.body.movies[0].title).toEqual(newMovie.title);
     expect(response.body.movies[0].coverImage).toEqual(
-      'http://localhost:3500/images/fake-thumbnail.jpg'
+      'http://localhost:3500//images/fake-thumbnail.jpg'
     );
     expect(response.body.movies[0].views).toEqual(0);
     expect(response.body.movies[0].genres[0]._id).toEqual(
@@ -224,7 +224,7 @@ describe('movies unit tests', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body[0].title).toEqual(newMovie.title);
     expect(response.body[0].coverImage).toEqual(
-      'http://localhost:3500/images/fake-thumbnail.jpg'
+      'http://localhost:3500//images/fake-thumbnail.jpg'
     );
   });
 
@@ -242,7 +242,7 @@ describe('movies unit tests', () => {
     expect(response.body).toEqual([
       {
         id: _id.toString(),
-        coverImage: 'http://localhost:3500/images/fake-thumbnail.jpg',
+        coverImage: 'http://localhost:3500//images/fake-thumbnail.jpg',
       },
     ]);
   });
@@ -264,7 +264,7 @@ describe('movies unit tests', () => {
     expect(response.body).toEqual([
       {
         id: _id.toString(),
-        coverImage: 'http://localhost:3500/images/fake-thumbnail.jpg',
+        coverImage: 'http://localhost:3500//images/fake-thumbnail.jpg',
       },
     ]);
   });
