@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { sanitizeError } from 'util/sanitizers';
+import { sanitizeError, sanitizeWatchList } from 'util/sanitizers';
 import { User } from 'database/schemas/User';
+import { IWatchList } from 'types/IMovie';
 
 export const getAllMoviesFromWatchList = async (
   req: Request,
@@ -13,12 +14,16 @@ export const getAllMoviesFromWatchList = async (
       .select('watchList -_id')
       .populate({
         path: 'watchList',
-        select: '_id title coverImage',
+        select: 'title coverImage',
+        populate: {
+          path: 'coverImage',
+          select: 'thumbnail -_id',
+        },
       });
 
-    const { watchList } = response;
-
-    return res.status(200).json(watchList);
+    return res
+      .status(200)
+      .json(sanitizeWatchList(response as unknown as IWatchList));
   } catch (e) {
     console.log(e);
     return res.status(500).json(sanitizeError('Server Error'));

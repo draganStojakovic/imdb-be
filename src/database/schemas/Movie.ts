@@ -5,7 +5,7 @@ const movieSchema = new mongoose.Schema<IMovie>(
   {
     title: { type: String, required: true, unique: true },
     description: { type: String, required: true },
-    coverImage: { type: String, required: true },
+    coverImage: { type: Schema.Types.ObjectId, ref: 'Poster', required: true },
     genres: [
       {
         type: Schema.Types.ObjectId,

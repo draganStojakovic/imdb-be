@@ -1,6 +1,7 @@
 import { User } from 'database/schemas/User';
 import { Movie } from 'database/schemas/Movie';
 import { Genre } from 'database/schemas/Genre';
+import { Poster } from 'database/schemas/Poster';
 import passwordManager from './PasswordManager';
 
 export const createUser = async () => {
@@ -21,13 +22,12 @@ export const createUser = async () => {
 export const createMovieTest = async () => {
   try {
     const genres = await createGenresTest();
+    const poster = await addMoviePostertoDb();
     const newMovie = await Movie.create({
       title: 'test movie',
       description: 'description of a movie',
-      coverImage: 'https://blabla.com/images/blabla.jpg',
+      coverImage: poster._id,
       genres: [genres[0]._id, genres[2]._id],
-      likes: [],
-      dislikes: [],
     });
     return newMovie;
   } catch (e) {
@@ -51,6 +51,17 @@ export const createGenresTest = async () => {
         name: 'animation',
       },
     ]);
+  } catch (e) {
+    return null;
+  }
+};
+
+export const addMoviePostertoDb = async () => {
+  try {
+    return await Poster.create({
+      thumbnail: '/images/fake-thumbnail.jpg',
+      fullSize: '/images/fake-full-size.jpg',
+    });
   } catch (e) {
     return null;
   }

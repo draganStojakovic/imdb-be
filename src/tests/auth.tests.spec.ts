@@ -8,7 +8,7 @@ const app = createApp();
 
 beforeEach(async () => {
   mongoose.set('strictQuery', false);
-  await mongoose.connect(process.env.DB);
+  await mongoose.connect('mongodb://127.0.0.1:27017/imdb');
   await mongoose.connection.db.dropDatabase();
 });
 

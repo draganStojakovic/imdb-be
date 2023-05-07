@@ -1,7 +1,7 @@
 import { body } from 'express-validator';
-import { URL } from 'url';
 import { Movie } from 'database/schemas/Movie';
 import { Genre } from 'database/schemas/Genre';
+import { Poster } from 'database/schemas/Poster';
 
 const createMovieValidator = [
   body('title')
@@ -24,9 +24,9 @@ const createMovieValidator = [
     .withMessage('Cover image is required')
     .isString()
     .withMessage('Cover image must be string type')
-    .custom((coverImage: string) => {
-      const url = new URL(coverImage);
-      if (!url) throw new Error('Cover image must be a link');
+    .custom(async (coverImage: string) => {
+      const poster = await Poster.exists({ _id: coverImage });
+      if (!poster) throw new Error('Movie poster missing.');
       return true;
     }),
   body('genres')

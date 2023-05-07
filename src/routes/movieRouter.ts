@@ -3,12 +3,10 @@ import { deleteMovie } from 'controllers/movies/deleteMovie';
 import { getMoviesPaginated } from 'controllers/movies/getMoviesPaginated';
 import { getSingleMovie } from 'controllers/movies/getSingleMovie';
 import { moviesEndPointRedirect } from 'controllers/movies/moviesEndPointRedirect';
-import { updateMovie } from 'controllers/movies/updateMovie';
 import { Router } from 'express';
 import { auth } from 'middleware/auth';
 import createMovieValidator from 'validators/CreateMovieValidator';
 import schemaValidator from 'validators/schemaValidator';
-import updateMovieValidator from 'validators/UpdateMovieValidator';
 import moviesPaginatedValidator from 'validators/getMovies/moviesPaginatedValidator';
 import moviesPaginatedSearchValidator from 'validators/getMovies/moviesPaginatedSearchValidator';
 import { getMoviesPaginatedSearch } from 'controllers/movies/getMoviesPaginatedSearch';
@@ -19,7 +17,6 @@ import { getMoviesPaginatedSearchGenres } from 'controllers/movies/getMoviesPagi
 import votesMovieValidator from 'validators/votesMovieValidator';
 import { voteMovie } from 'controllers/votes/voteMovie';
 import movieIdValidator from 'validators/movieIdValidator';
-import { addMovieView } from 'controllers/movies/addMovieView';
 import { watchedMovie } from 'controllers/movies/watchedMovie';
 import { addOrRemoveFromWatchList } from 'controllers/movies/addOrRemoveFromWatchList';
 import { getAllMoviesFromWatchList } from 'controllers/movies/getAllMoviesFromWatchList';
@@ -76,14 +73,6 @@ movieRouter.put(
 );
 
 movieRouter.put(
-  '/views/:id',
-  auth,
-  movieIdValidator,
-  schemaValidator,
-  addMovieView
-);
-
-movieRouter.put(
   '/watched-movie/:id',
   auth,
   movieIdValidator,
@@ -107,14 +96,6 @@ movieRouter.post(
   createMovieValidator,
   schemaValidator,
   createMovie
-);
-
-movieRouter.put(
-  '/movies/:id',
-  auth,
-  updateMovieValidator,
-  schemaValidator,
-  updateMovie
 );
 
 movieRouter.delete('/movies/:id', auth, deleteMovie);

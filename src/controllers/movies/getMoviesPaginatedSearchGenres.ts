@@ -20,7 +20,11 @@ export const getMoviesPaginatedSearchGenres = async (
     const movies = await Movie.find(queryConditions)
       .limit(Number(limit) * 1)
       .skip((Number(page) - 1) * Number(limit))
-      .populate('genres');
+      .populate('genres')
+      .populate({
+        path: 'coverImage',
+        select: 'thumbnail',
+      });
 
     const count = await Movie.count(queryConditions);
 
